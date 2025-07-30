@@ -72,6 +72,9 @@ export default function Assignment_5() {
             upBtn.style.marginLeft = '10px'
             upBtn.style.marginTop = '10px';
             upBtn.style.marginRight = '10px';
+            upBtn.disabled = index === 0;
+
+            
 
             upBtn.onclick = () => {
                 if (index > 0) {
@@ -79,6 +82,7 @@ export default function Assignment_5() {
                     display();
                     moveUp();
                     moveDown()
+                    deleteButtons()
 
                 }
             }
@@ -89,18 +93,22 @@ export default function Assignment_5() {
 
 
     function moveDown() {
+        let list =  Array.from(document.getElementsByTagName('li'));
         list.forEach((li, index) => {
             const downBtn = document.createElement('button')
             downBtn.textContent = 'Move Down'
             downBtn.style.marginLeft = '10px'
             downBtn.style.marginTop = '10px';
             downBtn.style.marginRight = '10px';
+            downBtn.disabled = index === array.length - 1;
 
             downBtn.onclick = () => {
-                if (index > 0) {
-                    [array[index - 1], array[index]] = [array[index], array[index - 1]];
+                if (index < array.length - 1) {
+                    [array[index], array[index + 1]] = [array[index + 1], array[index]];
                     display();
                     moveDown();
+                    moveUp();
+                    deleteButtons()
                 }
             }
             li.appendChild(downBtn)
