@@ -6,7 +6,6 @@ export default function Assignment_3() {
         const input = (document.getElementById('num').value);
         const inputs = parseInt(input)
         array.push(inputs)
-        array.sort((a, b) => a - b)
         console.log(array)
         display()
         totalAndAverage()

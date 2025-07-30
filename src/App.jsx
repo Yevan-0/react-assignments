@@ -9,7 +9,7 @@ import Assignment_2 from './assignments/Assignment_2.jsx';
 function App() {
   return (
     <>
-  
+    Home
     </>
 
   )
