@@ -4,14 +4,20 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Assignment_1 from './assignments/Assignment_1.jsx';
 import Assignment_2 from './assignments/Assignment_2.jsx';
+import { Link } from 'react-router-dom';
 
 
 function App() {
   return (
     <>
-    Home
+    <Link to="/ASG-01">Assignment 1</Link>
+    <br />
+    <Link to="/ASG-02">Assignment 2</Link>
+    <br />
+    <Link to="/ASG-03">Assignment 3</Link>
+    <br />
+    <Link to="/ASG-04">Assignment 4</Link>
     </>
-
   )
 }
 

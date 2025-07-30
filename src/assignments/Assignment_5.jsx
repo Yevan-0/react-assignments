@@ -11,6 +11,7 @@ export default function Assignment_5() {
         display()
         deleteButtons()
         moveUp()
+        moveDown()
     }
 
     function display() {
@@ -46,6 +47,9 @@ export default function Assignment_5() {
         console.log(sortedArray);
         display()
         deleteButtons()
+        moveUp()
+        moveDown()
+
 
     }
 
@@ -54,18 +58,54 @@ export default function Assignment_5() {
         console.log(sortedArray);
         display()
         deleteButtons()
+        moveUp()
+        moveDown()
+
     }
 
     function moveUp() {
-        list
+        const list = Array.from(document.getElementsByTagName('li'));
+
+        list.forEach((li, index) => {
+            const upBtn = document.createElement('button')
+            upBtn.textContent = 'Move Up'
+            upBtn.style.marginLeft = '10px'
+            upBtn.style.marginTop = '10px';
+            upBtn.style.marginRight = '10px';
+
+            upBtn.onclick = () => {
+                if (index > 0) {
+                    [array[index - 1], array[index]] = [array[index], array[index - 1]];
+                    display();
+                    moveUp();
+                    moveDown()
+
+                }
+            }
+            li.appendChild(upBtn)
+        });
+
     }
-    const list = Array.from(document.getElementsByTagName('li'));
-    list.forEach(li => {
-        const moveUpBtn = document.createElement('button');
-        moveUpBtn.textContent = 'Move Up';
-        moveUpBtn.onclick = () => moveUp(li);
-        li.appendChild(moveUpBtn);
-    })
+
+
+    function moveDown() {
+        list.forEach((li, index) => {
+            const downBtn = document.createElement('button')
+            downBtn.textContent = 'Move Down'
+            downBtn.style.marginLeft = '10px'
+            downBtn.style.marginTop = '10px';
+            downBtn.style.marginRight = '10px';
+
+            downBtn.onclick = () => {
+                if (index > 0) {
+                    [array[index - 1], array[index]] = [array[index], array[index - 1]];
+                    display();
+                    moveDown();
+                }
+            }
+            li.appendChild(downBtn)
+        });
+    }
 
 
 
