@@ -1,40 +1,78 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export default function Assignment_2() {
 
-    function calculate() {
-        const a = Number(document.getElementById('num1').value);
-        const b = Number(document.getElementById('num2').value);
-        const operator = document.getElementById('operators').value;
-        const output = document.getElementById('output');
+    const [value1, setValue1] = useState('');
+    const [value2, setValue2] = useState('');
+    const [operator, setOperator] = useState('+');
+    const [result, setResult] = useState('');
 
-        if (operator == "+") {
-            output.value = a + b;
-        } else if (operator == "-") {
-            output.value = a - b;
-        } else if (operator == "*") {
-            output.value = a * b;
-        } else if (operator == "/") {
-            output.value = a / b;
+    function calculate() {
+        const num1 = parseInt(value1);
+        const num2 = parseInt(value2);
+        let output;
+
+        if (isNaN(num1) || isNaN(num2)) {
+            output = ""
+        } else {
+            switch (operator) {
+                case '+':
+                    output = num1 + num2;
+                    break;
+
+                case '-':
+                    output = num1 - num2;
+                    break;
+                case '*':
+                    output = num1 * num2;
+                    break;
+                case '/':
+                    output = num1 / num2;
+                    break;
+                default:
+
+            }
         }
+
+        setResult(output)
     }
+
+
 
     return (
         <div>
-            <label htmlFor="num1">Number 1:</label> <input type="number" id="num1" />
+            <input
+                type="number"
+                value={value1}
+                onChange={element => setValue1(element.target.value)}
+                placeholder="Enter 1st number"
+            />
+
             <br />
+
             <label htmlFor="operators">Operator : </label>
-            <select id="operators">
+
+            <select value={operator}
+                onChange={element => setOperator(element.target.value)}>
                 <option value="+">+</option>
                 <option value="-">-</option>
                 <option value="*">*</option>
                 <option value="/">/</option>
             </select>
+
             <br />
-            <label htmlFor="num2">Number 2: </label> <input type="number" id="num2" />
+
+            <input
+                type="number"
+                value={value2}
+                onChange={element => setValue2(element.target.value)}
+                placeholder="Enter 1st number"
+            />
+
             <br />
-            <label htmlFor="output">Output Value: </label><input type="number" id="output" disabled />
+
+            <label htmlFor="output">Output Value: </label> <input type="number" value={result} disabled />
             <br /><br />
             <button onClick={calculate}>Calculate</button>
         </div>
