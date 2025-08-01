@@ -32,7 +32,7 @@ export default function Assignment_3() {
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>{item}</li>
-                ))}
+                ))}     
             </ul>
             <input
                 type="number"
