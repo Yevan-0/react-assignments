@@ -1,40 +1,43 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { redirectDocument } from "react-router-dom";
 
 export default function Assignment_3() {
-    let array = [];
-    function add() {
-        const input = (document.getElementById('num').value);
-        const inputs = parseInt(input)
-        array.push(inputs)
-        console.log(array)
-        display()
-        totalAndAverage()
-    }
-    function display() {
-        const ul = document.getElementsByTagName("ul")[0];
-        ul.innerHTML = "";
+    const [input, setInput] = useState("");
+    const [total, setTotal] = useState(0);
+    const [average, setAverage] = useState("");
+    const [items, setItems] = useState([]);
 
-        array.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            ul.appendChild(li);
-        })
-    }
-    function totalAndAverage() {
-        const total = array.reduce((acc, element) => acc + element);
-        document.getElementById('total').textContent = total;
-        const average = total/array.length
-        document.getElementById('average').textContent = average;   
-    }
+    const addItems = () => {
+        const num = parseFloat(input);
+
+        if (!isNaN(num)) {
+            setItems(prev => {
+                const updatedList = [...prev, num];
+                console.log(updatedList)
+                const sum = updatedList.reduce((acc, elemnt) => acc + elemnt, 0);
+                setTotal(sum);
+                console.log("total:", sum);
+                const avg = sum / updatedList.length;
+                setAverage(avg)
+                console.log("average :", average)
+                return updatedList;
+            });
+            setInput("");
+        }
+    };
 
     return (
         <div>
             <ul></ul>
-            <input type="number" id="num" />
-            <button onClick={add}>Add</button>
+            <input
+                type="number"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+            />
+            <button onClick={addItems}>Add</button>
             <br />
-            <label htmlFor="total">Total :</label> <p id='total' />
-            <label htmlFor="average">Average :</label> <p id="average" />
+            <p>Total: {total}</p>
+            <p>Average: {average}</p>
         </div>
     )
 }
