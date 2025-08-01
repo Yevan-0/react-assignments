@@ -7,6 +7,7 @@ export default function Assignment_3() {
     const [average, setAverage] = useState("");
     const [items, setItems] = useState([]);
 
+
     const addItems = () => {
         const num = parseFloat(input);
 
@@ -28,7 +29,11 @@ export default function Assignment_3() {
 
     return (
         <div>
-            <ul></ul>
+            <ul>
+                {items.map((item, index) => (
+                    <li key={index}>{item}</li>
+                ))}
+            </ul>
             <input
                 type="number"
                 value={input}

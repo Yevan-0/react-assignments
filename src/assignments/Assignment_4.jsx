@@ -1,46 +1,33 @@
+import { useState } from "react";
 export default function Assignment_4(){
-    let array = [];
-    function add(){
-        const input = document.getElementById('num').value;
-        const numbers = parseInt(input);
-        array.push(numbers);
-        console.log(array);
-        display();
-        deleteButtons();
-    }
+const [input, setInput] = useState("");
+    const [total, setTotal] = useState(0);
+    const [average, setAverage] = useState("");
+    const [items, setItems] = useState([]);
 
-    function display(){
-        const ul = document.getElementsByTagName('ul')[0];
-        ul.innerHTML ="";
+    const addItems = () => {
+        const num = parseFloat(input);
 
-        array.forEach(element => {
-            const li = document.createElement('li');
-            li.textContent =    element;
-            ul.appendChild(li);
-        });
-    }
-
-    function deleteButtons(){
-        const list = Array.from(document.getElementsByTagName('li'));
-        const selectedItem = list.filter(item => item.textContent.includes('Delete'));
-
-        list.forEach(li => {
-            const delBtn = document.createElement('button');
-            delBtn.textContent ='Delete';
-            delBtn.onclick =() =>{
-                li.remove();
-            }
-            li.appendChild(delBtn);
-        });
-    }
-    
+        if (!isNaN(num)) {
+            setItems(prev => {
+                const updatedList = [...prev, num];
+                console.log(updatedList)
+                return updatedList;
+            });
+            setInput("");
+        }
+    };
 
     return (
         <div>
             <ul></ul>
-            <input type="number" id="num"/>
+            <input
+             type="number"
+             value={input}
+             onChange={(e) => setInput(e.target.value)}
+             />
             <br />  <br />
-            <button onClick={add}>Add</button>
+            <button onClick={addItems}>Add</button>
         </div>
     )
 }
