@@ -14,7 +14,7 @@ export default function Assignment_5() {
                 return updatedList;
             });
             setInput("");
-        }
+        }   
     };
 
     const deleteItems = (indexToDel) => {
