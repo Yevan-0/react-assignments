@@ -33,7 +33,6 @@ export default function Assignment_6() {
     return (
         <div>
 
-            <p style={cssObject}>SAMPLE TEXT</p>
             <input type="text"
                 value={inputName}
                 onChange={(e) => setInputName(e.target.value)}
@@ -57,6 +56,8 @@ export default function Assignment_6() {
                     </li>
                 ))}
             </ul>
+
+            <div style={cssObject}>Sample Text</div>
         </div>
     )
 }
