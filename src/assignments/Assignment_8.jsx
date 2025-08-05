@@ -8,9 +8,9 @@ export default function Assignment_8() {
 
 
     const searchItem = async () => {
-        const respsone = await axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red`);
+        const respsone = await axios.get(`https://apis.dnjs.lk/objects/colors.php`);
         setArray(respsone.data.filter(item =>
-            item.name[0].toLowerCase().includes(query.toLowerCase()) 
+            item.name[0].toLowerCase().includes(query.toLowerCase())
         ));
     };
 
