@@ -1,26 +1,23 @@
 import axios from "axios";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
+import { data } from "react-router-dom";
 
 export default function Assignment_8() {
     const [query, setQuery] = useState("");
     const [array, setArray] = useState([]);
 
-    const searchItem = () => {
 
-        if (query.trim() === "") {
-            setArray([]);
-            return;
-        }
+    const searchItem = async () => {
+        const respsone = await axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red`);
+        setArray(respsone.data.filter(item =>
+            item.name[0].toLowerCase().includes(query.toLowerCase()) 
+        ));
+    };
 
-        axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red`)
-            .then(respsone => {
-                const filtered = respsone.data.filter(item =>
-                    item.name.toLowerCase().includes(query.toLowerCase())
-                );
-                setArray(filtered);
-            })
-            .catch(error => console.log(`Error in API:`, error))
-    }
+    useEffect(() => {
+        searchItem();
+    }, []);
+
 
     return (
         <div>
