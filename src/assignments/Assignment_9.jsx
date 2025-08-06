@@ -9,11 +9,12 @@ export default function Assignment_9() {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [total, setTotal] = useState(0)
-
+    const [query, setQuery] = useState("");
 
     const fetchData = async () => {
         const response = await axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red&page=${page}&limit=${limit}`);
-        setColors(response.data.data);
+        setColors(response.data.data.filter(item =>
+            item.name.toLowerCase().includes(query.toLowerCase())));
         setTotal(Math.ceil(response.data.total / limit));
     };
     useEffect(() => {
@@ -23,9 +24,16 @@ export default function Assignment_9() {
 
     return (
         <>
+            <input type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{margin:"10px"}} />
+ 
+            <button onClick={fetchData}>Search</button>
+
             <ul>
                 {colors.map((color, index) => (
-                    <li key={index}>{color.name}</li>
+                    <li key={index}>{color.name} - {color.code}</li>
                 ))}
             </ul>
 
