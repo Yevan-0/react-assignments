@@ -1,47 +1,43 @@
 import ReactPaginate from "react-paginate"
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { data } from "react-router-dom";
 
 
 export default function Assignment_9() {
-    // const [query, setQuery] = useState("");
-    // const [array, setArray] = useState([]);
-    // const [page, setPage] = useState(1);
-    // const [limit, setLimit] = useState();
+    const [colors, setColors] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [total, setTotal] = useState(0)
 
 
-    // const offset = (page - 1) * limit
-    // const paginatedItems = array.slice(offset, offset + limit);
-    // const searchItem = () => {
+    const fetchData = async () => {
+        const response = await axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red&page=${page}&limit=${limit}`);
+        setColors(response.data.data);
+        setTotal(Math.ceil(response.data.total / limit));
+    };
+    useEffect(() => {
+        fetchData()
+    }, [page, limit])
 
-    //     if (query.trim() === "") {
-    //         setArray([]);
-    //         return;
-    //     }
 
-    //     axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red`)
-    //         .then(respsone => {
-    //             const filtered = respsone.data.filter(item =>
-    //                 item.name.toLowerCase().includes(query.toLowerCase())
-    //             );
-    //             setArray(filtered);
-    //         })
-    //         .catch(error => console.log(`Error in API:`, error))
-    // }
     return (
-        <div>
-            {/* <input type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)} />
-
-            <button onClick={searchItem}>Search</button>
-
+        <>
             <ul>
-                {array.map((item, index) => (
-                    <li key={index}>{item.name}-{item.code}</li>
+                {colors.map((color, index) => (
+                    <li key={index}>{color.name}</li>
                 ))}
-            </ul> */}
+            </ul>
 
-            COMING SOON
-        </div>
+            <div>
+                {Array.from({ length: total }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setPage(i + 1)}>
+                        {i + 1}
+                    </button>
+                ))}
+            </div>
+        </>
     )
 }
