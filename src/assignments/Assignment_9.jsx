@@ -19,7 +19,7 @@ export default function Assignment_9() {
     };
     useEffect(() => {
         fetchData()
-    }, [page, limit])
+    }, [page, limit]);
 
 
     return (
@@ -27,8 +27,8 @@ export default function Assignment_9() {
             <input type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                style={{margin:"10px"}} />
- 
+                style={{ margin: "10px" }} />
+
             <button onClick={fetchData}>Search</button>
 
             <ul>
