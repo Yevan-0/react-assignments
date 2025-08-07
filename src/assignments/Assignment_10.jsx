@@ -21,9 +21,7 @@ export default function Assignment_10() {
             setIsError(false)
         } catch (error) {
             console.log("Error:", error.response?.data || error.message)
-            setIsError("Login in unsuccessful");
-            setIsLoading(false)
-
+            setIsError("Login in unsuccessful");  
         }
 
     }
