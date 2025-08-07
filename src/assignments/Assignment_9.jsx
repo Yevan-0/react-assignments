@@ -12,7 +12,7 @@ export default function Assignment_9() {
     const [query, setQuery] = useState("");
 
     const fetchData = async () => {
-        const response = await axios.get(`https://apis.dnjs.lk/objects/colors.php?search=red&page=${page}&limit=${limit}`);
+        const response = await axios.get(`https://apis.dnjs.lk/objects/colors.php?page=${page}&limit=${limit}`);
         setColors(response.data.data.filter(item =>
             item.name.toLowerCase().includes(query.toLowerCase())));
         setTotal(Math.ceil(response.data.total / limit));
