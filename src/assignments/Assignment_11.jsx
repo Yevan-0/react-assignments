@@ -18,10 +18,7 @@ export default function Assignment_11() {
                 email: email,
                 password: password
             });
-            const receivedToken = response.data.access_token;
-            setToken(receivedToken);
-            localStorage.setItem('token', receivedToken);
-            console.log("Login success", response.data)
+            setToken(response.data.access_token);
             setIsError(false)
         } catch (error) {
             setIsLoading(false);
