@@ -132,7 +132,7 @@ function ProfileScreen({ setLogged }) {
     }, []);
 
     const logOut = async () => {
-        const token = localStorage.getItem("access_toke") || sessionStorage.getItem("access_token");
+        const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
 
         try {
             await axios.post('https://auth.dnjs.lk/api/logout', {}, {
@@ -193,7 +193,7 @@ export default function Assignment_13() {
         const token =
             localStorage.getItem("access_token") ||
             sessionStorage.getItem("access_token");
-            
+
         const signedIn =
             localStorage.getItem("signedin") ||
             sessionStorage.getItem("signedin");
