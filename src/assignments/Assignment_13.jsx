@@ -6,9 +6,8 @@ function LogScreen({ setLogged }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [_, setToken] = useState("");
     const [error, setError] = useState(false)
-    const [access_token, setToken] = useState(" ");
-    const [signedin, setIsSignedin] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
 
 
@@ -27,7 +26,7 @@ function LogScreen({ setLogged }) {
                 localStorage.setItem("signedin", "true");
             } else {
                 sessionStorage.setItem("access_token", token);
-                sessionStorage.setItem("signedin", "false");
+                sessionStorage.setItem("signedin", "true");
             }
 
             setToken(token);
@@ -49,7 +48,7 @@ function LogScreen({ setLogged }) {
 
     useEffect(() => {
         const saved = localStorage.getItem("rememberMe");
-        if(saved !== null) {
+        if (saved !== null) {
             setRememberMe(saved === "true")
         }
 
@@ -90,7 +89,7 @@ function LogScreen({ setLogged }) {
                 />
                 Keep me logged in
             </span>
-
+            
             <br />
 
             <button
@@ -107,8 +106,9 @@ function LogScreen({ setLogged }) {
 function ProfileScreen({ setLogged }) {
     const [data, setData] = useState(null);
     const [access_token, setToken] = useState("");
-    const [signedin, setIsSignedin] = useState(false);
+    const [_, setIsSignedin] = useState(false);
     const [error, setError] = useState(null);
+    const [loggedOut, setLoggedOut] = useState(false);
 
     useEffect(() => {
         const savedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
@@ -133,13 +133,15 @@ function ProfileScreen({ setLogged }) {
 
     const logOut = async () => {
         const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
-
+        setLoggedOut(true);
         try {
             await axios.post('https://auth.dnjs.lk/api/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
+
             });
+            setLoggedOut(true);
 
             localStorage.removeItem("access_token");
             localStorage.removeItem("signedin");
@@ -150,9 +152,11 @@ function ProfileScreen({ setLogged }) {
             console.log('Logout Successful')
         } catch (error) {
             console.error("Logout failed")
+        } finally {
+            setLoggedOut(true);
         }
 
-    }
+    };
 
     return (
         <div>
@@ -168,11 +172,11 @@ function ProfileScreen({ setLogged }) {
                     />
                     <p>Subscribed: {data.subscribed ? "Yes" : "No"}</p>
 
-
                     <button
                         onClick={logOut}
+                        disabled={loggedOut}
                     >
-                        Logout
+                        {loggedOut ? "Logging out..." : "Logout"}
                     </button>
                 </div>
             ) : error ? (
@@ -184,7 +188,6 @@ function ProfileScreen({ setLogged }) {
         </div>
     )
 }
-
 
 export default function Assignment_13() {
     const [logged, setLogged] = useState(false);
