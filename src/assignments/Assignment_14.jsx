@@ -87,7 +87,7 @@ function LogScreen({ setLogged }) {
                 />
                 Keep me logged in
             </span>
-            
+
             <br />
 
             <button
@@ -105,6 +105,10 @@ function ProfileScreen({ setLogged }) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loggedOut, setLoggedOut] = useState(false);
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("");
+    const [saving, setSaving] = useState(false);
+
 
     useEffect(() => {
         const savedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
@@ -117,6 +121,7 @@ function ProfileScreen({ setLogged }) {
         })
             .then(res => {
                 setData(res.data);
+                console.log(res.data)
             })
             .catch(err => {
                 setError("Failed to fetch data properly");
@@ -152,6 +157,28 @@ function ProfileScreen({ setLogged }) {
 
     };
 
+    const handleSave = async () => {
+        const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
+        setSaving(true);
+
+        const payload = {
+            name: name?.trim() === "" ? data.name : name,
+            description: description?.trim() === "" ? data.description : description
+        };
+        try {
+            await axios.put(`https://auth.dnjs.lk/api/user`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setSaving(true)
+        } catch (err) {
+            console.error(`Error:`, err)
+        } finally {
+            setSaving(false)
+        }
+    }
+
     return (
         <div>
             {data ? (
@@ -165,12 +192,42 @@ function ProfileScreen({ setLogged }) {
                         style={{ borderRadius: "50%", width: "100px" }}
                     />
                     <p>Subscribed: {data.subscribed ? "Yes" : "No"}</p>
+                    <p>Description: {data.description}</p>
+
 
                     <button
                         onClick={logOut}
                         disabled={loggedOut}
+                        style={{ margin: "10px" }}
                     >
                         {loggedOut ? "Logging out..." : "Logout"}
+                    </button>
+
+                    <br />
+
+                    <h4>Change Name and Description</h4>
+                    <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text"
+                        placeholder="Change Name"
+                    />
+                    <br />
+                    <input
+                        onChange={(e) => setDescription(e.target.value)}
+                        value={description}
+                        type="text"
+                        placeholder="Change Description"
+                        style={{ margin: "10px" }}
+
+                    />
+                    <br />
+                    <button
+                        onClick={handleSave}
+                        style={{ margin: "10px" }}
+                        disabled={saving}
+                    >
+                        {saving ? "Saving..." : "Save"}
                     </button>
                 </div>
             ) : error ? (
@@ -183,7 +240,7 @@ function ProfileScreen({ setLogged }) {
     )
 }
 
-export default function Assignment_13() {
+export default function Assignment_14() {
     const [logged, setLogged] = useState(false);
 
     useEffect(() => {
