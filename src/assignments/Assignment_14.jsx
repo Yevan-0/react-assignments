@@ -108,8 +108,7 @@ function ProfileScreen({ setLogged }) {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("");
     const [saving, setSaving] = useState(false);
-
-
+    const [editing, setEditing] = useState(false);
     useEffect(() => {
         const savedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
 
@@ -160,7 +159,7 @@ function ProfileScreen({ setLogged }) {
     const handleSave = async () => {
         const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
         setSaving(true);
-
+        setEditing(false)
         const payload = {
             name: name?.trim() === "" ? data.name : name,
             description: description?.trim() === "" ? data.description : description
@@ -172,6 +171,14 @@ function ProfileScreen({ setLogged }) {
                 }
             })
             setSaving(true)
+
+            // future refs - this helps render the ui with new name and description once saved
+            setData((prev) => ({
+                ...prev,
+                name: payload.name,
+                description: payload.description
+            }));
+
         } catch (err) {
             console.error(`Error:`, err)
         } finally {
@@ -179,64 +186,94 @@ function ProfileScreen({ setLogged }) {
         }
     }
 
+    // the part that displays the current data in the editing input boxes
+    useEffect(() => {
+        if (data) {
+            setName(data.name || "");
+            setDescription(data.description || "");
+        }
+    }, [data]);
+
+
+
     return (
         <div>
-            {data ? (
+            {editing ? (
+                <EditPage
+                    name={name}
+                    setName={setName}
+                    description={description}
+                    setDescription={setDescription}
+                    handleSave={handleSave}
+                    saving={saving}
+                    back={() => setEditing(false)}
+                />
+            ) : (
                 <div>
                     <h3>You have now logged in!</h3>
-                    <p>Name: {data.name}</p>
-                    <p>Email: {data.email}</p>
+                    <p>Name: {data?.name}</p>
+                    <p>Email: {data?.email}</p>
                     <img
-                        src={data.avatar}
+                        src={data?.avatar}
                         alt="User Avatar"
                         style={{ borderRadius: "50%", width: "100px" }}
                     />
-                    <p>Subscribed: {data.subscribed ? "Yes" : "No"}</p>
-                    <p>Description: {data.description}</p>
+                    <p>Subscribed: {data?.subscribed ? "Yes" : "No"}</p>
+                    <p>Description: {data?.description}</p>
 
+                    <button onClick={() => setEditing(true)}>Edit Profile</button>
 
                     <button
                         onClick={logOut}
-                        disabled={loggedOut}
-                        style={{ margin: "10px" }}
+                        style={{margin:"10px"}}
                     >
-                        {loggedOut ? "Logging out..." : "Logout"}
-                    </button>
-
-                    <br />
-
-                    <h4>Change Name and Description</h4>
-                    <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        placeholder="Change Name"
-                    />
-                    <br />
-                    <input
-                        onChange={(e) => setDescription(e.target.value)}
-                        value={description}
-                        type="text"
-                        placeholder="Change Description"
-                        style={{ margin: "10px" }}
-
-                    />
-                    <br />
-                    <button
-                        onClick={handleSave}
-                        style={{ margin: "10px" }}
-                        disabled={saving}
-                    >
-                        {saving ? "Saving..." : "Save"}
+                        Log out
                     </button>
                 </div>
-            ) : error ? (
-                <p>{error}</p>
-            ) : (
-                <p>Loading profile...</p>
             )}
-
         </div>
+
+    )
+}
+
+function EditPage({
+    name,
+    setName,
+    description,
+    setDescription,
+    handleSave,
+    saving,
+    back,
+}) {
+    return (
+        <div>
+            <h4>Edit Your Profile</h4>
+            <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                placeholder="Change Name"
+            />
+            <br />
+            <input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                type="text"
+                placeholder="Change Description"
+                style={{ margin: "10px" }}
+            />
+            <br />
+            <button onClick={handleSave} disabled={saving}>
+                {saving ? "Saving..." : "Save"}
+            </button>
+
+            <button
+                onClick={back}
+                style={{ margin: "10px" }}>
+                Go back
+            </button>
+        </div>
+
     )
 }
 
