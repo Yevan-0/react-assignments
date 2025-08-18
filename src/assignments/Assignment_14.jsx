@@ -301,7 +301,7 @@ export default function Assignment_14() {
             localStorage.getItem("signedin") ||
             sessionStorage.getItem("signedin");
 
-        if (token && signedIn === "true") {
+        if (token && signedIn === "false") {
             setLogged(true);
         } else {
             setLogged(false);
