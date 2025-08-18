@@ -92,9 +92,10 @@ function LogScreen({ setLogged }) {
 
             <button
                 onClick={getLogin}
-                style={{ margin: "10px" }}
-                disabled={loading}>
-                Login
+                style={{ margin: "10px", color: "cyan" }}
+                disabled={loading}
+            >
+                {loading ? 'Loging In...' : 'Login'}
             </button>
         </div>
     )
@@ -109,6 +110,7 @@ function ProfileScreen({ setLogged }) {
     const [description, setDescription] = useState("");
     const [saving, setSaving] = useState(false);
     const [editing, setEditing] = useState(false);
+
     useEffect(() => {
         const savedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
 
@@ -139,7 +141,6 @@ function ProfileScreen({ setLogged }) {
                 }
 
             });
-            setLoggedOut(true);
 
             localStorage.removeItem("access_token");
             localStorage.removeItem("signedin");
@@ -162,7 +163,8 @@ function ProfileScreen({ setLogged }) {
         setEditing(false)
         const payload = {
             name: name?.trim() === "" ? data.name : name,
-            description: description?.trim() === "" ? data.description : description
+            description: description !== undefined && description !== null ? description : data.description
+
         };
         try {
             await axios.put(`https://auth.dnjs.lk/api/user`, payload, {
@@ -216,16 +218,28 @@ function ProfileScreen({ setLogged }) {
                     <img
                         src={data?.avatar}
                         alt="User Avatar"
-                        style={{ borderRadius: "50%", width: "100px" }}
+                        style={{
+                            borderRadius: "50%",
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover"
+                        }}
                     />
                     <p>Subscribed: {data?.subscribed ? "Yes" : "No"}</p>
                     <p>Description: {data?.description}</p>
 
-                    <button onClick={() => setEditing(true)}>Edit Profile</button>
+                    <button
+                        onClick={() => setEditing(true)}
+                        style={{ margin: "10px", color: "cyan" }}
 
+                    >
+                        Edit Profile
+                    </button>
+                    <br />
                     <button
                         onClick={logOut}
-                        style={{margin:"10px"}}
+                        disabled={loggedOut}
+                        style={{ margin: "10px", color: "red" }}
                     >
                         Log out
                     </button>
@@ -236,15 +250,8 @@ function ProfileScreen({ setLogged }) {
     )
 }
 
-function EditPage({
-    name,
-    setName,
-    description,
-    setDescription,
-    handleSave,
-    saving,
-    back,
-}) {
+function EditPage(props) {
+    const { name, setName, description, setDescription, handleSave, loading, back } = props;
     return (
         <div>
             <h4>Edit Your Profile</h4>
@@ -263,13 +270,18 @@ function EditPage({
                 style={{ margin: "10px" }}
             />
             <br />
-            <button onClick={handleSave} disabled={saving}>
-                {saving ? "Saving..." : "Save"}
+            <button
+                onClick={handleSave}
+                disabled={loading}
+                style={{ margin: "10px", color: "chartreuse" }}
+            >
+                {loading ? "Saving..." : "Save"}
             </button>
 
             <button
                 onClick={back}
-                style={{ margin: "10px" }}>
+                style={{ margin: "10px", color: "cyan" }}
+            >
                 Go back
             </button>
         </div>
