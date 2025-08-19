@@ -112,7 +112,7 @@ function ProfileScreen({ setLogged }) {
     const [description, setDescription] = useState("");
     const [saving, setSaving] = useState(false);
     const [editing, setEditing] = useState(false);
-
+    const [edited, setHasEdited] = useState(false);
     useEffect(() => {
         const savedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
 
@@ -195,11 +195,10 @@ function ProfileScreen({ setLogged }) {
     // the part that displays the current data in the editing input boxes
     useEffect(() => {
         if (data) {
-            setName(data.name || "");
-            setDescription(data.description || "");
+            setName((prev) => prev || data.name || "");
+            setDescription((prev) => prev || data.description || "");
         }
     }, [data]);
-
 
     return (
         <div>
@@ -213,6 +212,7 @@ function ProfileScreen({ setLogged }) {
                     loading={saving}
                     back={() => setEditing(false)}
                     setData={setData}
+                    setHasEdited={setHasEdited}
                 />
             ) : (
                 <div>
@@ -259,7 +259,7 @@ function ProfileScreen({ setLogged }) {
 
 // EDIT PAGE
 function EditPage(props) {
-    const { name, setName, description, setDescription, handleSave, loading, back, setData } = props;
+    const { name, setName, description, setDescription, handleSave, loading, back, setData, setHasEdited } = props;
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -310,7 +310,10 @@ function EditPage(props) {
             <h4>Edit Your Profile</h4>
             <input
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                    setHasEdited(true);
+                    setName(e.target.value)
+                }}
                 type="text"
                 placeholder="Change Name"
             />
