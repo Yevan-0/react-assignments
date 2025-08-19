@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// LOGIN SCREEN
 function LogScreen({ setLogged }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -9,7 +10,7 @@ function LogScreen({ setLogged }) {
     const [error, setError] = useState(false)
     const [rememberMe, setRememberMe] = useState(false);
 
-
+    // Login button logic
     const getLogin = async () => {
 
         setLoading(true);
@@ -102,6 +103,7 @@ function LogScreen({ setLogged }) {
 
 }
 
+// PROFILE SCREEN
 function ProfileScreen({ setLogged }) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
@@ -131,6 +133,7 @@ function ProfileScreen({ setLogged }) {
 
     }, []);
 
+    // LOGOUT BUTTON LOGIC
     const logOut = async () => {
         const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
         setLoggedOut(true);
@@ -157,6 +160,7 @@ function ProfileScreen({ setLogged }) {
 
     };
 
+    // SAVE BUTTON LOGIC
     const handleSave = async () => {
         const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
         setSaving(true);
@@ -197,7 +201,6 @@ function ProfileScreen({ setLogged }) {
     }, [data]);
 
 
-
     return (
         <div>
             {editing ? (
@@ -207,8 +210,9 @@ function ProfileScreen({ setLogged }) {
                     description={description}
                     setDescription={setDescription}
                     handleSave={handleSave}
-                    saving={saving}
+                    loading={saving}
                     back={() => setEditing(false)}
+                    setData={setData}
                 />
             ) : (
                 <div>
@@ -235,7 +239,9 @@ function ProfileScreen({ setLogged }) {
                     >
                         Edit Profile
                     </button>
+
                     <br />
+
                     <button
                         onClick={logOut}
                         disabled={loggedOut}
@@ -250,8 +256,55 @@ function ProfileScreen({ setLogged }) {
     )
 }
 
+
+// EDIT PAGE
 function EditPage(props) {
-    const { name, setName, description, setDescription, handleSave, loading, back } = props;
+    const { name, setName, description, setDescription, handleSave, loading, back, setData } = props;
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+
+    const fileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            setSuccess(false);
+            setUploading(false);
+            setSelectedFile(file);
+        } else {
+            alert('Select vlaid image file')
+        }
+    };
+
+    const handleUpload = async () => {
+        if (!selectedFile) return alert('No image selected');
+
+        const token = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
+        const formData = new FormData();
+        formData.append("avatar", selectedFile);
+
+        setUploading(true);
+        setSuccess(false);
+        try {
+            await axios.post(`https://auth.dnjs.lk/api/avatar`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-type": "multipart/form-data"
+                }
+            });
+
+            setData((prev) => ({
+                ...prev,
+                avatar: URL.createObjectURL(selectedFile)
+            }));
+
+            setSuccess(true);
+        } catch (err) {
+            console.error('Upload failed', err);
+        } finally {
+            setUploading(false);
+        }
+    };
     return (
         <div>
             <h4>Edit Your Profile</h4>
@@ -270,6 +323,33 @@ function EditPage(props) {
                 style={{ margin: "10px" }}
             />
             <br />
+            {selectedFile && (
+                <img
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Preview"
+                    style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        margin: "10px",
+                    }} />
+            )}
+            <br />
+            <input type="file"
+                accept="image/"
+                onChange={fileChange} />
+
+            <button
+                onClick={handleUpload}
+                disabled={uploading || success}>
+                {
+                    uploading ? 'Uploading...' :
+                        success ? 'Uploaded' : 'Upload'
+                }
+            </button>
+            <br />
+
             <button
                 onClick={handleSave}
                 disabled={loading}
@@ -282,14 +362,14 @@ function EditPage(props) {
                 onClick={back}
                 style={{ margin: "10px", color: "cyan" }}
             >
-                Go back
+                Go Back
             </button>
         </div>
 
     )
 }
 
-export default function Assignment_14() {
+export default function Assignment_15() {
     const [logged, setLogged] = useState(false);
 
     useEffect(() => {
