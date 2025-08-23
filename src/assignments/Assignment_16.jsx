@@ -444,7 +444,7 @@ function ChangePwrd({ close, password, setPassword }) {
             setChanging(false);
             return;
         }
-
+        
         try {
             await axios.put(`https://auth.dnjs.lk/api/password`,
                 {
