@@ -55,7 +55,7 @@ export default function Assignment_17() {
                     width: "100px",
                     height: "100px",
                     background: `linear-gradient(to right, ${color1}, ${mixedColor}, ${color2})`
-                }}>gradient</div>
+                }}>Gradient</div>
         </div>
     )
 
