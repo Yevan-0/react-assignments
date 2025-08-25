@@ -4,7 +4,6 @@ export default function Assignment_17() {
     const [color1, setColor1] = useState("");
     const [color2, setColor2] = useState("");
     const [mixedColor, setMixedColor] = useState("");
-    const [selected, setSelected] = useState(false);
 
     const hexToRgb = (hex) => {
         return hex.replace(/^#/, "").match(/.{2}/g).map((value) => parseInt(value, 16));
