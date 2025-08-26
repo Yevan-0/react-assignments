@@ -73,6 +73,7 @@ function GamePage({ setPlaying }) {
                 gameOver ? (
                     <GameOver
                         retry={retry}
+                        score={score}
                     />
                 ) : (
                     <div>
@@ -134,7 +135,7 @@ function FrontPage({ setPlaying }) {
     )
 }
 
-function GameOver({ retry }) {
+function GameOver({ retry,score }) {
     const [gameMessage, setGameMessage] = useState(``);
 
     useEffect(() => {
@@ -148,6 +149,7 @@ function GameOver({ retry }) {
             >
                 {gameMessage}
             </h1>
+            <h3>YOUR SCORE: {score}</h3>
             <button onClick={retry}>Retry</button>
         </div>
     )
