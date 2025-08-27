@@ -122,7 +122,7 @@ function FinalScore({ score }) {
                 style={{
                     margin: "10px",
                     fontSize: "30px",
-                    fontFamily: "Poppinss"
+                    fontFamily: "Poppins"
 
                 }}
             >
