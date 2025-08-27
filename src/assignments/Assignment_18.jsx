@@ -9,7 +9,7 @@ function GamePage({ setPlaying }) {
 
     useEffect(() => {
         intervalReff.interval = setInterval(() => {
-            const randomNum = Math.random().toFixed(2);
+            const randomNum = Math.random();
             const newColor = randomNum <= 0.5 ? 'blue' : 'red';
 
             setColors(prevColor => {
@@ -91,7 +91,7 @@ function GamePage({ setPlaying }) {
                                         height: "100px",
                                         backgroundColor: color,
                                     }}
-                                ><span style={{ visibility: "hidden" }} >{color}{i}</span></div>
+                                ><span style={{ visibility: "hidden" }} >{color}</span></div>
                             ))}
                         </div>
 
