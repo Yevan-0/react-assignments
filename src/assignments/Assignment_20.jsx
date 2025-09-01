@@ -47,7 +47,10 @@ function QuizPage({ setQuizing }) {
         }
 
 
-        setQuizData(prev => [...prev, { question: current, selectedIndex : selectedAnswer, correctIndex : correctAns }])
+        setQuizData(prev => [...prev, {
+            question: current, selectedIndex: selectedAnswer,
+            correctIndex: correctAns
+        }])
         console.log(quizData)
     }
 
@@ -61,7 +64,7 @@ function QuizPage({ setQuizing }) {
                         setQuizData={quizData}
                         setCurrentQuestion={setCurrentQuestion}
 
-                        />
+                    />
                 ) : end ?
                     (
                         <FinalScore
@@ -86,6 +89,7 @@ function QuizPage({ setQuizing }) {
                                     </button>
                                 ))}
                             </div>
+                            <p>{error}</p>
                         </div>
                     )
             }
@@ -172,8 +176,8 @@ function ReviewPage({ quizData }) {
     }
 
     const buttonColor = (index, selectedIndex, correctIndex) => {
-        if(index === correctIndex) return 'green';
-        if(index === selectedIndex && selectedIndex !== correctIndex) return 'red'
+        if (index === correctIndex) return 'green';
+        if (index === selectedIndex && selectedIndex !== correctIndex) return 'red'
         return 'black'
     }
     return (

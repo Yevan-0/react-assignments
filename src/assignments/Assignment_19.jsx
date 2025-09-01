@@ -8,7 +8,6 @@ function QuizPage({ setQuizing }) {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [score, setScore] = useState(0);
     const [end, setEnd] = useState(false);
-    const [loading, setLoading] = useState(false)
 
     // fetching the API 
     useEffect(() => {
@@ -17,15 +16,11 @@ function QuizPage({ setQuizing }) {
             try {
                 const response = await axios.get(`https://apis.dnjs.lk/objects/quiz.php`);
                 setQuiz(response.data);
-                setLoading(true)
             } catch (error) {
                 setLoading(false)
                 setError(`failed to fetch data`);
                 console.error(error);
-            } finally {
-                setLoading(false)
-
-            }
+            } 
         }
         fetchData();
     }, [])
@@ -71,6 +66,7 @@ function QuizPage({ setQuizing }) {
                                 </button>
                             ))}
                         </div>
+                        <p>{error}</p>
                     </div>
                 )
             }
