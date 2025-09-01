@@ -24,13 +24,14 @@ import Assignment_18 from './assignments/Assignment_18.jsx';
 import Assignment_19 from './assignments/Assignment_19.jsx';
 import Assignment_20 from './assignments/Assignment_20.jsx';
 import Assignment_21 from './assignments/Assignment_21.jsx';
+import Assignment_22 from './assignments/Assignment_22.jsx';
 import { Navigate } from 'react-router-dom';
 
 
 createRoot(document.getElementById('root')).render(
   <HashRouter>
     <Routes>
-      <Route path="/" element={<App/>} />
+      <Route path="/" element={<App />} />
       <Route path="/ASG-01" element={<Assignment_1 />} />
       <Route path="/ASG-02" element={<Assignment_2 />} />
       <Route path="/ASG-03" element={<Assignment_3 />} />
@@ -49,12 +50,10 @@ createRoot(document.getElementById('root')).render(
       <Route path="/ASG-16" element={<Assignment_16 />} />
       <Route path="/ASG-17" element={<Assignment_17 />} />
       <Route path="/ASG-18" element={<Assignment_18 />} />
-      <Route path="/ASG-19" element={<Assignment_19/>} />
-      <Route path="/ASG-20" element={<Assignment_20/>} />
-      <Route path="/ASG-21" element={<Assignment_21/>} />
-
-
-
+      <Route path="/ASG-19" element={<Assignment_19 />} />
+      <Route path="/ASG-20" element={<Assignment_20 />} />
+      <Route path="/ASG-21" element={<Assignment_21 />} />
+      <Route path="/ASG-22" element={<Assignment_22 />} />
     </Routes>
   </HashRouter>
 

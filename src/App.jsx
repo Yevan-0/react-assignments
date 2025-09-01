@@ -51,9 +51,8 @@ function App() {
     <Link to="/ASG-20">Assignment 20</Link>
     <br />
     <Link to="/ASG-21">Assignment 21</Link>
-
-
-
+    <br />
+    <Link to="/ASG-22">Assignment 22</Link>
     </>
   )
 }
