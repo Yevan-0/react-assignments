@@ -9,7 +9,6 @@ export default function Assignment_23() {
     const fileInputRef = useRef(null);
     const [cropDiv, setCropDiv] = useState(null);
     const [cropping, setCropping] = useState(false);
-    const [download, setDownload] = useState(false);
     const [cropDisable, setCropDisable] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [error, setError] = useState('');
