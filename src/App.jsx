@@ -6,7 +6,6 @@ import Assignment_1 from './assignments/Assignment_1.jsx';
 import Assignment_2 from './assignments/Assignment_2.jsx';
 import { Link } from 'react-router-dom';
 
-
 function App() {
   return (
     <>

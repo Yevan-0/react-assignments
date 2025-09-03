@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Loader from "../loader/Loader";
 
 export default function Assignment_22() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -297,7 +298,6 @@ export default function Assignment_22() {
                 </span>
 
             </div>
-
 
         </div>
     )

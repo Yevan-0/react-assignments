@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-
+import Loader from "../loader/Loader";
 
 
 export default function Assignment_23() {
@@ -176,7 +176,9 @@ export default function Assignment_23() {
     }
 
     return (
+
         <div>
+
             <div
                 className='container'
                 style={{
@@ -189,7 +191,8 @@ export default function Assignment_23() {
                 <div className='description'
                     style={{
                         marginTop: '10px',
-                        fontSize: '18px'
+                        fontSize: '18px',
+                        marginBottom:'10px'
                     }}>Drag and draw on the image to set a cropping area</div>
 
                 {error &&
@@ -252,7 +255,8 @@ export default function Assignment_23() {
 
                     <button
                         style={{
-                             backgroundColor: '#243df8ff' }}
+                            backgroundColor: '#243df8ff'
+                        }}
                         disabled={cropDisable}
                         onClick={handleCrop}
                     >
@@ -260,6 +264,7 @@ export default function Assignment_23() {
                     </button>
                 </div>
             </div>
+
         </div>
     )
 }
