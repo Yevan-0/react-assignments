@@ -43,6 +43,7 @@ function QuizPage({ setQuizing }) {
         }
     }
 
+
     return (
         <div>
             {
