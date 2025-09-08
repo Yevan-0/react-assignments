@@ -3,30 +3,6 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './App.jsx'
-// import Assignment_1 from './assignments/Assignment_1.jsx';
-// import Assignment_2 from './assignments/Assignment_2.jsx';
-// import Assignment_3 from './assignments/Assignment_3.jsx';
-// import Assignment_4 from './assignments/Assignment_4.jsx';
-// import Assignment_5 from './assignments/Assignment_5.jsx';
-// import Assignment_6 from './assignments/Assignment_6.jsx';
-// import Assignment_7 from './assignments/Assignment_7.jsx';
-// import Assignment_8 from './assignments/Assignment_8.jsx';
-// import Assignment_9 from './assignments/Assignment_9.jsx';
-// import Assignment_10 from './assignments/Assignment_10.jsx';
-// import Assignment_11 from './assignments/Assignment_11.jsx';
-// import Assignment_12 from './assignments/Assignment_12.jsx';
-// import Assignment_13 from './assignments/Assignment_13.jsx';
-// import Assignment_14 from './assignments/Assignment_14.jsx';
-// import Assignment_15 from './assignments/Assignment_15.jsx';
-// import Assignment_16 from './assignments/Assignment_16.jsx';
-// import Assignment_17 from './assignments/Assignment_17.jsx';
-// import Assignment_18 from './assignments/Assignment_18.jsx';
-// import Assignment_19 from './assignments/Assignment_19.jsx';
-// import Assignment_20 from './assignments/Assignment_20.jsx';
-// import Assignment_21 from './assignments/Assignment_21.jsx';
-// import Assignment_22 from './assignments/Assignment_22.jsx';
-// import Assignment_23 from './assignments/Assignment_23.jsx';
-import { Navigate } from 'react-router-dom';
 import Loader from './loader/Loader.jsx';
 
 const Assignment_1 = lazy(() => import('./assignments/Assignment_1.jsx'));
@@ -52,7 +28,7 @@ const Assignment_20 = lazy(() => import('./assignments/Assignment_20.jsx'));
 const Assignment_21 = lazy(() => import('./assignments/Assignment_21.jsx'));
 const Assignment_22 = lazy(() => import('./assignments/Assignment_22.jsx'));
 const Assignment_23 = lazy(() => import('./assignments/Assignment_23.jsx'));
-
+const Assignment_24 = lazy(() => import('./assignments/Assignment_24.jsx'));
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -83,6 +59,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/ASG-21" element={<Assignment_21 />} />
           <Route path="/ASG-22" element={<Assignment_22 />} />
           <Route path="/ASG-23" element={<Assignment_23 />} />
+          <Route path="/ASG-24" element={<Assignment_24 />} />
         </Routes>
       </Suspense>
     </HashRouter>
