@@ -106,9 +106,6 @@ export default function Assignment_24() {
     }, [output])
 
 
-
-
-
     return (
         <div className="container"
             style={{

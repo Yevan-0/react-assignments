@@ -55,7 +55,7 @@ function App() {
     <br />
     <Link to="/ASG-23">Assignment 23 - Crop tool</Link>
     <br />
-    <Link to="/ASG-24">Assignment 24-console</Link>
+    <Link to="/ASG-24">Assignment 24-Console</Link>
     </>
   )
 }
