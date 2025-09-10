@@ -58,7 +58,7 @@ export default function Assignment_25() {
                     <audio
                         ref={audioRef}
                         className="source"
-                        src="/catchy-jazzy-15-sec-stinger-343720.mp3" controls
+                        src="./catchy-jazzy-15-sec-stinger-343720.mp3" controls
                         onPlay={play}
                     ></audio>
                 </div>
