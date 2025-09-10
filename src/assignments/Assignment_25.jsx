@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import './Assignment_25.css'
 import { audio } from 'framer-motion/client';
 
+
 export default function Assignment_25() {
     const [analyser, setAnalyser] = useState(null);
     const audioRef = useRef(null)
@@ -58,7 +59,7 @@ export default function Assignment_25() {
                     <audio
                         ref={audioRef}
                         className="source"
-                        src="./catchy-jazzy-15-sec-stinger-343720.mp3" controls
+                        src="/catchy-jazzy-15-sec-stinger-343720.mp3" controls
                         onPlay={play}
                     ></audio>
                 </div>
