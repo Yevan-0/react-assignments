@@ -41,7 +41,6 @@ export default function Assignment_25() {
                 bar.style.height = `${normalized}px`;
             });
             requestAnimationFrame(animate)
-            console.log(dataArray);
         };
         animate();
     }, [analyser]);

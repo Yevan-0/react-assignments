@@ -58,6 +58,8 @@ function App() {
     <Link to="/ASG-24">Assignment 24-Console</Link>
     <br />
     <Link to="/ASG-25">Assignment 25-Audio wave</Link>
+    <br />
+    <Link to="/ASG-26">Assignment 26-Draggable Element</Link>
     </>
   )
 }

@@ -1,0 +1,1 @@
+.container{width:100vw;height:100vh}.draggable{display:flex;position:absolute;flex-direction:column;background-color:#008cffdb;border-radius:15px;padding:10px;align-items:center;width:150px;height:150px;overflow:hidden;background-image:url(../arrows-move.svg);background-repeat:no-repeat;background-position-x:center;background-position-y:20px;background-size:150px 150px}
