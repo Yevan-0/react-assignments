@@ -14,6 +14,7 @@ export default function Assignment_26() {
 
     useEffect(() => {
         const element = elementRef.current;
+
         if (!element) return;
 
         element.onmousedown = (event) => {
@@ -34,7 +35,7 @@ export default function Assignment_26() {
             offsetY.current = event.clientY - rect.top;
         }
 
-        element.onmousemove = (event) => {
+        window.onmousemove = (event) => {
             if (!drag) return;
 
             // gets the difference fromt the orign and the current coordinates
@@ -48,12 +49,8 @@ export default function Assignment_26() {
         window.onmouseup = () => {
             setDrag(false)
         }
-        element.onmouseleave = () => {
-            setDrag(false)
-        }
-        element.onmouseout = () => {
-            setDrag(false)
-        }
+
+
     }, [drag])
 
     return (
