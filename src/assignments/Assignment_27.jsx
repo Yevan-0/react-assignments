@@ -9,10 +9,10 @@ export default function Assignment_27() {
 
     useEffect(() => {
         setKeys([
-            ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-            ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
+            ['~ `', '! 1', '@ 2', '# 3', '$ 4', '% 5', '^ 6', '& 7', '* 8', '( 9', ') 0', '_ -', '+ =', 'Backspace'],
+            ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{ [', '} ]', '| \\'],
             ['Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter'],
-            ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'Shift'],
+            ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '< ,', '> .', '? /', 'Shift'],
             ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl']
         ])
     }, [])
@@ -21,11 +21,24 @@ export default function Assignment_27() {
         const pressedKey = keyRef.current;
         pressedKey.onkeydown = (event) => {
             const keys = document.querySelectorAll('.keyboard-key');
+            const isShift = event.shiftKey;
+            const pressed = event.key;
+
             keys.forEach((key) => {
                 let keyText = key.innerText.toLowerCase();
-                if (keyText === event.key.toLowerCase()) {
-                    key.style.backgroundColor = "#4859";
-                } else if (keyText === 'space' && event.key === ' ') {
+
+
+                if (keyText.includes(' ')) {
+                    const [specialChar, normalChar] = keyText.split(' ');
+                    if (isShift && pressed === specialChar) {
+                        key.style.backgroundColor = '#4859'; // highlight special char
+                    } else if (!isShift && pressed === normalChar) {
+                        key.style.backgroundColor = '#4859'; // highlight normal char
+                    }
+                } else if (keyText === event.key.toLowerCase()) {
+                    key.style.backgroundColor = '#4859';
+                }
+                else if (keyText === 'space' && event.key === ' ') {
                     key.style.backgroundColor = '#4859'
                 } else if (keyText === 'ctrl' && event.key === 'Control') {
                     key.style.backgroundColor = '#4859'
@@ -39,10 +52,20 @@ export default function Assignment_27() {
 
         pressedKey.onkeyup = (event) => {
             const keys = document.querySelectorAll('.keyboard-key');
+            const isShift = event.shiftKey;
+            const released = event.key;
+
             keys.forEach((key) => {
                 let keyText = key.innerText.toLowerCase();
-                if (keyText === event.key.toLowerCase()) {
-                    key.style.backgroundColor = "";
+                if (keyText.includes(' ')) {
+                    const [specialChar, normalChar] = keyText.split(' ');
+                    if (isShift && released === specialChar) {
+                        key.style.backgroundColor = ''; // remove highlight
+                    } else if (!isShift && released === normalChar) {
+                        key.style.backgroundColor = ''; // remove highlight
+                    }
+                } else if (keyText === released.toLowerCase()) {
+                    key.style.backgroundColor = '';
                 } else if (keyText === 'space' && event.key === ' ') {
                     key.style.backgroundColor = ""
                 } else if (keyText === 'ctrl' && event.key === 'Control') {
@@ -76,7 +99,9 @@ export default function Assignment_27() {
                                         }
                                     }}
                                 >
-                                    {keyVal === " " ? "Space" : keyVal}
+                                    {
+                                        keyVal === " " ? "Space" : keyVal
+                                    }
                                 </div>
                             ))}</div>
                     ))}
