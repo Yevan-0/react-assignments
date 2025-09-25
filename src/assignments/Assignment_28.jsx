@@ -48,7 +48,8 @@ export default function Assignment_28() {
 
     return (
         <div>
-            <div>
+            
+            <div className="scrollContent">
 
                 {sections.map((section, sectionIndex) => (
                     <div
@@ -67,7 +68,7 @@ export default function Assignment_28() {
                     className="video">
                     <video
                         ref={videoRef}
-                        src="/scroll_video.mp4"
+                        src="/fish.mp4"
                         muted
                         preload="auto"
                         playsInline
@@ -75,7 +76,6 @@ export default function Assignment_28() {
                     </video>
                 </div>
             </div>
-
 
         </div>
     )
