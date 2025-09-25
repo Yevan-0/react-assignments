@@ -68,7 +68,7 @@ export default function Assignment_28() {
                     className="video">
                     <video
                         ref={videoRef}
-                        src="./assets/fish.mp4"
+                        src="/fish.mp4"
                         muted
                         preload="auto"
                         playsInline
