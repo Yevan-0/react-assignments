@@ -1,0 +1,1 @@
+*{box-sizing:border-box}body{margin:0;overflow-x:hidden}.background{width:100vw;height:100vh;position:relative;overflow-x:hidden}.video{position:fixed;top:0;left:0;height:100vh;z-index:-1;object-fit:contain}.text{font-family:poppins;text-align:center;font-size:50px;font-weight:700;line-height:100vh;filter:drop-shadow(10px 10px 7px #000000)}

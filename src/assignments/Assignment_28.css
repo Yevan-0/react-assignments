@@ -1,28 +1,26 @@
-
-
-.background{
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
+* {
+    box-sizing: border-box;
 }
 
-.background video {
-    object-fit: cover;
-    width: 100vw;
-    height: 100vh;
+body{
+    margin: 0;
+    overflow-x: hidden;
 }
 
-.content {
-    left: 0;
-    top: 0;
+.background {
     width: 100vw;
     height: 100vh;
-    position: absolute;
-    overflow-y: auto;
-    scroll-behavior: smooth;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: -1;
+    object-fit: contain;
 }
 
 .text {
@@ -31,5 +29,5 @@
     font-size: 50px;
     font-weight: bold;
     line-height: 100vh;
-    filter: drop-shadow(10px, 10px, 7px #000000);
+    filter: drop-shadow(10px 10px 7px #000000);
 }
