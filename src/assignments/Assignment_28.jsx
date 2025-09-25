@@ -67,7 +67,7 @@ export default function Assignment_28() {
                     className="video">
                     <video
                         ref={videoRef}
-                        src="./scroll video.mp4"
+                        src="/scroll%20video.mp4"
                         muted
                         preload="auto"
                         playsInline
