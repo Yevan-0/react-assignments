@@ -59,7 +59,7 @@ export default function Assignment_28() {
                     </div>
                 ))}
             </div>
-            
+
             <div
                 className="background"
             >
@@ -67,7 +67,7 @@ export default function Assignment_28() {
                     className="video">
                     <video
                         ref={videoRef}
-                        src="/scroll video.mp4"
+                        src="./scroll video.mp4"
                         muted
                         preload="auto"
                         playsInline
