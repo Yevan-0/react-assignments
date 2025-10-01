@@ -1,0 +1,37 @@
+.container {
+    width: 100vw;
+    height: 100Vh;
+    overflow: hidden;
+    position: fixed;
+    display: flex;
+    left: 0;
+    top: 0;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    font-size: 30px;
+    color: #FFFA;
+}
+
+.context-menu {
+    background: rgb(41, 41, 41);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.item {
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    padding: 10px;
+    line-height: 15px;
+}
+
+
+
+.item:hover {
+    background-color: #474747;
+}
