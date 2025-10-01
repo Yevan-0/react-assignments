@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    gap: 30px;
+    background-color: #2f2f2f;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #111;
+    padding: 20px;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.button {
+    background-color: rgb(0, 156, 83);
+    padding: 10px;
+    width: 120px;
+}
+
+.canvases {
+    display: flex;
+    gap: 20px;
+}
+
+.canvas {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+
+
+.source{
+    border-radius: 10px;
+    border: 0.5px solid #00000090;
+    object-fit: contain;
+}
+
+.options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    gap: 20px;
+    background-color: #0000007a;
+    border-radius: 15px;
+}
+
+.size{
+    flex-grow: 1;
+    background-color: rgb(0, 156, 83);
+}
