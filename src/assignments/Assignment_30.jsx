@@ -5,7 +5,8 @@ export default function Assignment_30() {
     const [items, setItems] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [bgColor, setBgColor] = useState('rgba(33, 33, 33, 0.67)')
+    const [bgColor, setBgColor] = useState('rgba(33, 33, 33, 0.67)');
+
     useEffect(() => {
         setItems([
             'Default', 'Red', 'Green', 'Blue'
@@ -20,8 +21,6 @@ export default function Assignment_30() {
             window.onclick = null;
         }
     }, []);
-
-
 
     return (
         <div>
