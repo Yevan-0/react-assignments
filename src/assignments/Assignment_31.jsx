@@ -15,7 +15,7 @@ export default function Assignment_31() {
 
     useEffect(() => {
         setBg([
-            '#3366cc', '#cc0044', '#2d8659', '#db5e0a', '#8a00e6'
+            '#3366cc', '#cc0044', '#2d8659', '#db5e0a'
         ]);
     }, []);
 
