@@ -68,6 +68,9 @@ function App() {
       <Link to="/ASG-29">Assignment 29-Pixel Filter</Link>
       <br />
       <Link to="/ASG-30">Assignment 30-Context menu</Link>
+      <br />
+      <Link to="/ASG-31">Assignment 31-Slide Editor</Link>
+
     </>
   )
 }
