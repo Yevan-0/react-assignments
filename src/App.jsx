@@ -70,7 +70,8 @@ function App() {
       <Link to="/ASG-30">Assignment 30-Context menu</Link>
       <br />
       <Link to="/ASG-31">Assignment 31-Slide Editor</Link>
-
+      <br />
+      <Link to="/ASG-32">Assignment 32-Video player</Link>
     </>
   )
 }
