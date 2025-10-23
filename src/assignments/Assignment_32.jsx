@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import './Assignment_32.css'
 import { progress } from 'framer-motion';
 
+const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
 export default function Assignment_32() {
     const videoRef = useRef();
     const seekerRef = useRef();
@@ -65,11 +71,7 @@ export default function Assignment_32() {
         }
     }, [])
 
-    const formatTime = (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
+
 
 
     return (
@@ -99,7 +101,7 @@ export default function Assignment_32() {
                             <div
                                 onClick={handleLoop}
                                 className='loop'
-                                data-active={loop? "false" : "true"}
+                                data-active={loop ? "false" : "true"}
                             />
                         </div>
                     </div>

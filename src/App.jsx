@@ -72,6 +72,8 @@ function App() {
       <Link to="/ASG-31">Assignment 31-Slide Editor</Link>
       <br />
       <Link to="/ASG-32">Assignment 32-Video player</Link>
+      <br />
+      <Link to="/ASG-33">Assignment 33-Flip and Match</Link>
     </>
   )
 }
