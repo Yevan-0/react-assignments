@@ -76,6 +76,8 @@ function App() {
       <Link to="/ASG-33">Assignment 33-Flip and Match</Link>
       <br />
       <Link to="/ASG-34">Assignment 34-Sanke.io</Link>
+      <br />
+      <Link to="/ASG-35">Assignment 35-Sliding Puzzle</Link>
 
     </>
   )

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import "./Assignment_34.css"
 
+const rows = 13;
+const cols = 13;
 
 export default function Assignment_34() {
     const [array, setArray] = useState([]);
@@ -16,13 +18,7 @@ export default function Assignment_34() {
     ]);
 
     useEffect(() => {
-        const generateBoard = () => {
-            const rows = 13;
-            const cols = 13;
-
-            setArray(Array(rows).fill().map(() => Array(cols).fill()));
-        }
-        generateBoard();
+        setArray(Array(rows).fill().map(() => Array(cols).fill()));
     }, []);
 
     useEffect(() => {
@@ -30,8 +26,8 @@ export default function Assignment_34() {
             setSnake(prev => {
                 const head = prev[0];
                 const newHead = {
-                    x: (head.x + direction.x + 13) % 13,
-                    y: (head.y + direction.y + 13) % 13,
+                    x: (head.x + direction.x + 13) % rows,
+                    y: (head.y + direction.y + 13) % cols,
                 }
 
                 const newSnake = [newHead, ...prev.slice(0, -1)];
@@ -53,7 +49,7 @@ export default function Assignment_34() {
                 case "a":
                     setDirection({ x: -1, y: 0 });
                     break;
-                case  "d":
+                case "d":
                     setDirection({ x: 1, y: 0 });
                     break;
             }
@@ -88,7 +84,7 @@ export default function Assignment_34() {
                         </div>
                     ))}
                 </div>
-                <span style={{fontStyle:"italic"}}>Use A,W,S,D for movement</span>
+                <span style={{ fontStyle: "italic" }}>Use A,W,S,D for movement</span>
             </div>
         </div>
     )
