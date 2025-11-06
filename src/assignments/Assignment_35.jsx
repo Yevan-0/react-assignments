@@ -17,31 +17,32 @@ export default function Assignment_34() {
 
     //shuffle logic 
     useEffect(() => {
-        const initialTiles = Array.from({ length: rows * cols }, (_, i) => i);
-
-        // Fisher Yates array shuffle
-        const shuffleArray = (array) => {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        const shuffled = shuffleArray(initialTiles);
-
+        const used = new Set();
+        const total = rows * cols;
         const newGrid = [];
 
+        const getUniqueRandom = () => {
+            let rand;
+            do {
+                rand = Math.floor(Math.random() * total);
+            } while (used.has(rand));
+            used.add(rand);
+            return rand;
+        };
+
         for (let i = 0; i < rows; i++) {
-            newGrid.push(
-                shuffled.slice(i * cols, (i + 1) * cols)
-            );
+            const row = [];
+            for (let j = 0; j < cols; j++) {
+                row.push(getUniqueRandom());
+            }
+            newGrid.push(row);
         }
+
         setGrid(newGrid);
 
-        const randomIndex = shuffled[Math.floor(Math.random() * shuffled.length)];
-        setHidden(randomIndex)
-        setSolved(false)
+        const hiddenIndex = Math.floor(Math.random() * total);
+        setHidden(hiddenIndex);
+        setSolved(false);
 
     }, []);
 
@@ -109,7 +110,7 @@ export default function Assignment_34() {
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [grid]);
-    
+
     const retry = () => {
         console.log("Retry button clicked");
         setSolved(false);
