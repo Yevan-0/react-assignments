@@ -87,6 +87,7 @@ export default function Assignment_34() {
                 setSolved(checkSolved(newGrid));
             }
 
+          
             switch (event.key.toLowerCase()) {
                 case "arrowup":
                 case "w":

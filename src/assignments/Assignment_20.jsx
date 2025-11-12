@@ -13,6 +13,7 @@ function QuizPage({ setQuizing }) {
     const [end, setEnd] = useState(false);
     const [quizData, setQuizData] = useState([]);
     const [review, setReview] = useState(false);
+    
     // fetching the API 
     useEffect(() => {
         const fetchData = async () => {

@@ -78,6 +78,9 @@ function App() {
       <Link to="/ASG-34">Assignment 34-Sanke.io</Link>
       <br />
       <Link to="/ASG-35">Assignment 35-Sliding Puzzle</Link>
+      <br />
+      <Link to="/ASG-36">Assignment 36-Zoom Filter</Link>
+
 
     </>
   )
