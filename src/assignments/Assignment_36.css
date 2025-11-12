@@ -82,7 +82,7 @@
         width: 30px;
         height: 30px;
         background-color: #FFF5;
-        background-image: url("x.svg");
+        background-image: url("/x.svg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: 18px auto;
