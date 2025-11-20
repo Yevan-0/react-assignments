@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import './Assignment_36.css';
 
+const fixedColors = [
+    "#FF5733", "#33FF57", "#3357FF", "#F1C40F",
+    "#9B59B6", "#1ABC9C", "#E67E22", "#2ECC71"
+];
+
 export default function Assignment_36() {
     const [numbers, setNumbers] = useState([]);
     const [expand, setExpand] = useState(null);
@@ -11,10 +16,7 @@ export default function Assignment_36() {
     const itemRef = useRef([]);
 
     useEffect(() => {
-        const fixedColors = [
-            "#FF5733", "#33FF57", "#3357FF", "#F1C40F",
-            "#9B59B6", "#1ABC9C", "#E67E22", "#2ECC71"
-        ];
+
         const nums = Array.from({ length: 64 }, (_, i) => ({
             value: i,
             color: fixedColors[i % fixedColors.length]
