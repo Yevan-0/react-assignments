@@ -1,1 +1,0 @@
-import{r,j as t}from"./index-DWFLlknf.js";import{a as n}from"./index-NIGUFBhG.js";function p(){const[e,a]=r.useState([]);return r.useEffect(()=>{n.get("https://apis.dnjs.lk/objects/colors.php").then(s=>{a(s.data)})},[]),t.jsx("div",{children:t.jsx("ul",{children:e.map((s,o)=>t.jsxs("li",{children:[s.name," - ",s.code]},o))})})}export{p as default};
