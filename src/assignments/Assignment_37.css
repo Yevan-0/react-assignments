@@ -23,8 +23,8 @@ body {
     height: 30vh;
     border-radius: 50%;
     background-color: brown;
-    left: calc(50vh - 15vh);
-    top: calc(50vh - 15vh);
+    left: 50%;
+    top: 50%;
 
 }
 
