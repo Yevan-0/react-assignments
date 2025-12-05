@@ -1,28 +1,23 @@
 import { useEffect, useRef, useState } from "react"
-
+import './Assignment_39.css'
 
 export default function Assignment_39() {
     const [Xaxis, setXaxis] = useState("");
     const [Yaxis, setYaxis] = useState("");
     const [Zaxis, setZaxis] = useState("");
 
-    const orientationValues = useRef({
-        alpha: 0,
-        beta: 0,
-        gamma: 0
-    });
-
-
     const handleOrientation = (event) => {
-        console.log("alpha:", event.alpha, "beta:", event.beta, "gamma:", event.gamma);
-        orientationValues.current = {
-            alpha: event.alpha,
-            beta: event.beta,
-            gamma: event.gamma,
-        };
+        const alpha = event.alpha ? Number(event.alpha).toPrecision(5) : 0;
+        const beta = event.beta ? Number(event.beta).toPrecision(3) : 0;
+        const gamma = event.gamma ? Number(event.gamma).toPrecision(3) : 0;
+
+        setZaxis(alpha);
+        setXaxis(beta);
+        setYaxis(gamma);
+
     };
 
-// Request for iphone
+    // Request for iphone and android permission
     const requestAccess = async () => {
         if (
             typeof DeviceOrientationEvent !== "undefined" &&
@@ -37,34 +32,31 @@ export default function Assignment_39() {
                 console.error("Permission request failed:", err);
             }
         }
+        else if (typeof DeviceOrientationEvent !== "undefined") {
+            // Android + Desktop (no explicit permission needed)
+            window.addEventListener("deviceorientation", handleOrientation);
+        }
     };
 
-    const handleClick = () => {
-        const { alpha, beta, gamma } = orientationValues.current;
-        setZaxis(`alpha: ${alpha}`);
-        setXaxis(`beta: ${beta}`);
-        setYaxis(`gamma: ${gamma}`);
-    }
     return (
-        <div onClick={handleClick}>
-            <button onClick={requestAccess}>Enable Motion Access</button>
+        <div>
+            <div className="container">
+                <button onClick={requestAccess}>Enable Motion Access</button>
+                <div
+                    className="values"
+                >
+                    <div className="z">
+                        Alpha: {Zaxis}
+                    </div>
 
-            <div
-                className="values"
-            >
-                Click over here
-                <div className="x">
-                    X: {Xaxis}
+                    <div className="x">
+                        Beta: {Xaxis}
+                    </div>
+
+                    <div className="y">
+                        Gamma: {Yaxis}
+                    </div>
                 </div>
-
-                <div className="y">
-                    Y: {Yaxis}
-                </div>
-
-                <div className="z">
-                    Z: {Zaxis}
-                </div>
-
             </div>
         </div>
     )
