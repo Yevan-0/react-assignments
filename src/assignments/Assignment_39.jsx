@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import './Assignment_39.css'
 
 export default function Assignment_39() {
-    const [Xaxis, setXaxis] = useState("");
-    const [Yaxis, setYaxis] = useState("");
-    const [Zaxis, setZaxis] = useState("");
+    const [xAxis, setXaxis] = useState("");
+    const [yAaxis, setYaxis] = useState("");
+    const [ZAxis, setZaxis] = useState("");
 
     const handleOrientation = (event) => {
         const alpha = event.alpha ? Number(event.alpha).toPrecision(5) : 0;
@@ -14,7 +14,6 @@ export default function Assignment_39() {
         setZaxis(alpha);
         setXaxis(beta);
         setYaxis(gamma);
-
     };
 
     // Request for iphone and android permission
@@ -46,15 +45,15 @@ export default function Assignment_39() {
                     className="values"
                 >
                     <div className="z">
-                        Alpha: {Zaxis}
+                        Alpha: {ZAxis}
                     </div>
 
                     <div className="x">
-                        Beta: {Xaxis}
+                        Beta: {xAxis}
                     </div>
 
                     <div className="y">
-                        Gamma: {Yaxis}
+                        Gamma: {yAaxis}
                     </div>
                 </div>
             </div>

@@ -86,6 +86,8 @@ function App() {
       <Link to="/ASG-38">Assignment 38-Location viewer</Link>
       <br />
       <Link to="/ASG-39">Assignment 39-Accelerometer</Link>
+      <br />
+      <Link to="/ASG-40">Assignment 40-Basket Game</Link>
     </>
   )
 }

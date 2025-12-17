@@ -44,6 +44,7 @@ const Assignment_36 = lazy(() => import('./assignments/Assignment_36.jsx'));
 const Assignment_37 = lazy(() => import('./assignments/Assignment_37.jsx'));
 const Assignment_38 = lazy(() => import('./assignments/Assignment_38.jsx'));
 const Assignment_39 = lazy(() => import('./assignments/Assignment_39.jsx'));
+const Assignment_40 = lazy(() => import('./assignments/Assignment_40.jsx'));
 
 
 createRoot(document.getElementById('root')).render(
@@ -91,6 +92,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/ASG-37" element={<Assignment_37 />} />
           <Route path="/ASG-38" element={<Assignment_38 />} />
           <Route path="/ASG-39" element={<Assignment_39 />} />
+          <Route path="/ASG-40" element={<Assignment_40 />} />
         </Routes>
       </Suspense>
     </HashRouter>
