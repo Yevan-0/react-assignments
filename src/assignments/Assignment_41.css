@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    background-color: #002155;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff2;
+    border-radius: 15px;
+    width: 320px;
+    padding: 30px 10px;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottle {
+    position: relative;
+    width: 50px;
+    height: 160px;
+    border-radius: 0px 0px 25px 25px;
+    border-style: solid;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-top-width: 0px;
+    border-color: #111;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
+    transition: transform 0.2s;
+}
+
+.bottle[data-holding="true"] {
+    transform: translateY(-10px) rotate(-5deg) scale(1.1);
+    box-shadow: 0 0 20px #fff4;
+    background-color: #fff4;
+}
+
+
+.done-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.bottle.complete {
+    pointer-events: none;
+}
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    color: #fff;
+    gap: 15px;
+    font-size: 20px;
+}
+
+.reset {
+    background-color: #06c;
+    border-radius: 8px;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+}

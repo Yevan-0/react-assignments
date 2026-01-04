@@ -16,12 +16,14 @@ export default function Assignment_40() {
     const basketRef = useRef(null);
     const containerRef = useRef(null);
 
+    // Orientation
     const handleOrientation = (event) => {
         console.log("gamma:", event.gamma);
         const gamma = event.gamma ? Number(event.gamma).toPrecision(3) : 0;
         setYaxis(gamma);
     };
 
+    // Access for motion sensors
     const requestAccess = async () => {
         if (
             typeof DeviceOrientationEvent !== "undefined" &&
@@ -54,12 +56,13 @@ export default function Assignment_40() {
                     const basketRect = basketRef.current.getBoundingClientRect();
                     const containerRect = containerRef.current.getBoundingClientRect();
 
-
+                    // Collision detection logic
                     const caught =
                         ballRect.bottom >= basketRect.top &&
                         ballRect.right >= basketRect.left &&
                         ballRect.left <= basketRect.right;
 
+                    // Scoring and ball reset logic 
                     if (caught && !justCaught) {
                         setScore(prev => prev + 1);
                         setJustCaught(true);
@@ -67,6 +70,7 @@ export default function Assignment_40() {
                         return 0;
                     }
 
+                    // Ball miss condition
                     if (newY + ballRect.height > containerRect.height) {
                         setJustCaught(false);
                         setBallX(Math.random() * (containerRect.width - 30));
