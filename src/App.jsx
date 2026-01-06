@@ -90,6 +90,8 @@ function App() {
       <Link to="/ASG-40">Assignment 40-Basket Game</Link>
       <br />
       <Link to="/ASG-41">Assignment 41-Water Sort Puzzle</Link>
+      <br />
+      <Link to="/ASG-42">Assignment 42-Highway Rush</Link>
     </>
   )
 }
