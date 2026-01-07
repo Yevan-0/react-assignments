@@ -9,7 +9,7 @@ const playerWidth = 45.4;
 const keys = {}
 
 // movement speed for x axis (left and right movement)
-const speed = 2;
+const speed = 3;
 // road scroll speed
 const roadSpeed = 0.375;
 
@@ -188,7 +188,7 @@ export default function Assignment_42() {
           window.onkeydown = (event) => { keys[event.key] = false; }
           window.onkeyup = (event) => { keys[event.key] = false; }
 
-          
+
         }
 
         // Near miss and scoring
