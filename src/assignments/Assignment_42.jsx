@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import './Assignment_42.css'
 
-const playerHeight = 88;
-const playerWidth = 46;
+const playerHeight = 86.4;
+const playerWidth = 45.4;
+
 
 // constants for object of keys
 const keys = {}
@@ -13,15 +14,15 @@ const speed = 2;
 const roadSpeed = 0.375;
 
 // track limits
-const roadLeft = 20;
-const roadRight = 260;
+const roadLeft = 35;
+const roadRight = 290;
 
 // car sprite sheet
 const carSprites = [
-  { x: 66.8, y: 16.0, w: 46, h: 100 },
-  { x: 188.8, y: 16.0, w: 46, h: 100 },
-  { x: 7.0, y: 192.2, w: 50, h: 151 },
-  { x: 425.2, y: 19.8, w: 60, h: 151 }
+  { x: 66.8, y: 16.0, w: 52, h: 92 },
+  { x: 188.8, y: 16.0, w: 48, h: 94.8 },
+  { x: 7.0, y: 192.2, w: 52.6, h: 136.4 },
+  { x: 425.2, y: 19.8, w: 60.1, h: 137.3 }
 ]
 
 // car ID for rendering cars at random
@@ -32,11 +33,7 @@ const totalCars = 2;
 const carsSpeed = 0.2;
 
 // Number of lanes
-const laneCount = 2;
-
-// minimum space required for rendering car on same lane
-const minSpacing = 80;
-
+const laneCount = 3;
 
 export default function Assignment_42() {
   const scrollDown = useRef(0);
@@ -46,7 +43,7 @@ export default function Assignment_42() {
   const [direction, setDirection] = useState(null);
   const cars = useRef([]);
   const playerYRef = useRef(360);
-  const [playing, setPlaying] = useState(false);
+  const [collisionDetected, setCollisionDetected] = useState(false);
 
   // Render road animation and other animations
   useEffect(() => {
@@ -84,7 +81,6 @@ export default function Assignment_42() {
 
     // render update
     const update = time => {
-      setPlaying(true);
 
       frame = requestAnimationFrame(update);
 
@@ -95,16 +91,18 @@ export default function Assignment_42() {
       previousTime = time;
 
       // Movement render
-      if (keys["ArrowLeft"]) {
-        positionX = Math.max(roadLeft + playerWidth / 2, positionX - speed);
-        setDirection("left");
-      }
-      else if (keys["ArrowRight"]) {
-        positionX = Math.min(roadRight - playerWidth / 2, positionX + speed);
-        setDirection("right");
-      }
-      else {
-        setDirection("idle");
+      if (!collisionDetected) {
+        if (keys["ArrowLeft"]) {
+          positionX = Math.max(roadLeft + playerWidth / 2, positionX - speed);
+          setDirection("left");
+        }
+        else if (keys["ArrowRight"]) {
+          positionX = Math.min(roadRight - playerWidth / 2, positionX + speed);
+          setDirection("right");
+        }
+        else {
+          setDirection("idle");
+        }
       }
 
       // render carSprite cars
@@ -121,7 +119,7 @@ export default function Assignment_42() {
 
         // lane cooldown, to render cars
         const safeToSpawn = cars.current.every(car => {
-          const sameLane = Math.min(car.x - rawX) < 5;
+          const sameLane = Math.abs(car.x - rawX) < 5;
           const distance = Math.abs(car.y - (-120));
           return !(sameLane && distance);
         });
@@ -152,22 +150,41 @@ export default function Assignment_42() {
         const carW = car.sprite.w;
         const carH = car.sprite.h;
 
-        const playerX = positionX;
-        const playerY = 360;
-        const playerW = playerWidth;
-        const playerH = playerHeight;
+        // player hitbox
+        const playerLeft = positionX - playerWidth / 2;
+        const playerRight = positionX + playerWidth / 2;
+        const playerTop = playerYRef.current - playerHeight / 2;
+        const playerBottom = playerYRef.current + playerHeight / 2;
+
+        // cars hitbox
+        const carLeft = carX;
+        const carRight = carX + carW;
+        const carTop = carY;
+        const carBottom = carY + carH;
 
         const collision =
-          playerX < carX + carW &&
-          playerX + playerW > carX &&
-          playerY < carY + carH &&
-          playerY + playerH > carY;
+          playerLeft < carRight &&
+          playerRight > carLeft &&
+          playerTop < carBottom &&
+          playerBottom > carTop;
 
-        if (collision) {
+        if (collision && !collisionDetected) {
           console.log("Collision detected");
-          setPlaying(false);
-
+          setCollisionDetected(true);
           playerYRef.current += carsSpeed * delta;
+
+          window.onkeydown = (event) => {
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+            }
+            keys[event.key] = false;
+          }
+          window.onkeyup = (event) => {
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+            }
+            keys[event.key] = false;
+          }
         }
       })
 
@@ -194,6 +211,7 @@ export default function Assignment_42() {
       >
         <div className="cars">
           {cars.current.map(car => (
+
             <div
               className="car"
               key={car.id}

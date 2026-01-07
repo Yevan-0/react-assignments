@@ -6,7 +6,7 @@
     background-color: #543;
     background-image: url("../assets/highway-rush-road.png");
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: repeat-y;
     position: relative;
     overflow: hidden;
@@ -16,20 +16,21 @@
 
 .player {
     transform-origin: center;
-    transform: translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
     background-image: url("../assets/highway-rush-cars.png");
     background-position-x: -64.7px;
     background-position-y: -345.8px;
     position: absolute;
     transition: transform 0.15s;
+    background-repeat: no-repeat;
 }
 
 .player[data-direction="left"] {
-    transform: translateY(-50%) rotateZ(-6deg);
+    transform: translateX(-50%) translateY(-50%) rotateZ(-6deg);
 }
 
 .player[data-direction="right"] {
-    transform: translateY(-50%) rotateZ(6deg);
+    transform: translateX(-50%)translateY(-50%) rotateZ(6deg);
 }
 
 .car {
@@ -38,6 +39,17 @@
     position: absolute;
     background-color: #4455;
     filter: blur(0.5px) brightness(1.1);
-
 }
 
+.hitbox {
+  position: absolute;
+  border: 2px dashed red;
+  pointer-events: none;
+  z-index: 9999;
+}
+.player-hitbox {
+  position: absolute;
+  border: 2px dashed lime;
+  pointer-events: none;
+  z-index: 9999;
+}
