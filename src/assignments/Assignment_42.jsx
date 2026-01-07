@@ -44,6 +44,8 @@ export default function Assignment_42() {
   const cars = useRef([]);
   const playerYRef = useRef(360);
   const [collisionDetected, setCollisionDetected] = useState(false);
+  const [score, setScore] = useState(0);
+  const [gameState, setGameState] = useState("start");
 
   // Render road animation and other animations
   useEffect(() => {
@@ -52,6 +54,8 @@ export default function Assignment_42() {
     let previousTime = performance.now();
 
     let player = playerRef.current;
+
+    if (!player || !containerRef.current) return;
 
     let containerWidth = containerRef.current.offsetWidth;
     let playerWidth = player.offsetWidth;
@@ -62,10 +66,11 @@ export default function Assignment_42() {
 
     // Cars rendering time frame (sprite sheet)
     let lastTime = 0;
-    let delay = 300;
+    let delay = 1000;
 
     // controls
     window.onkeydown = (event) => {
+      if (gameState !== 'playing') return;
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
         event.preventDefault();
       }
@@ -73,6 +78,7 @@ export default function Assignment_42() {
     }
 
     window.onkeyup = (event) => {
+      if (gameState !== 'playing') return;
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
         event.preventDefault();
       }
@@ -90,52 +96,56 @@ export default function Assignment_42() {
 
       previousTime = time;
 
-      // Movement render
-      if (!collisionDetected) {
-        if (keys["ArrowLeft"]) {
-          positionX = Math.max(roadLeft + playerWidth / 2, positionX - speed);
-          setDirection("left");
+
+      if (gameState === "playing") {
+        // Movement render
+        if (!collisionDetected) {
+          if (keys["ArrowLeft"]) {
+            positionX = Math.max(roadLeft + playerWidth / 2, positionX - speed);
+            setDirection("left");
+          }
+          else if (keys["ArrowRight"]) {
+            positionX = Math.min(roadRight - playerWidth / 2, positionX + speed);
+            setDirection("right");
+          }
+          else {
+            setDirection("idle");
+          }
         }
-        else if (keys["ArrowRight"]) {
-          positionX = Math.min(roadRight - playerWidth / 2, positionX + speed);
-          setDirection("right");
-        }
-        else {
-          setDirection("idle");
-        }
-      }
 
-      // render carSprite cars
-      if (cars.current.length < totalCars && time - lastTime > delay) {
-        const spriteIndex = Math.floor(Math.random() * carSprites.length);
+        // render carSprite cars
+        if (cars.current.length < totalCars && time - lastTime > delay) {
+          const spriteIndex = Math.floor(Math.random() * carSprites.length);
 
-        // divde lanes for cars
-        const laneWidth = (roadRight - roadLeft) / laneCount;
-        const lanes = Array.from({ length: laneCount }, (_, i) => roadLeft + i * laneWidth + laneWidth / 2)
-        const laneX = lanes[Math.floor(Math.random() * lanes.length)]
+          // divde lanes for cars
+          const laneWidth = (roadRight - roadLeft) / laneCount;
+          const lanes = Array.from({ length: laneCount }, (_, i) => roadLeft + i * laneWidth + laneWidth / 2)
+          const laneX = lanes[Math.floor(Math.random() * lanes.length)]
 
-        const rawX = laneX - carSprites[spriteIndex].w / 2;
-        const clampedX = Math.max(roadLeft, Math.min(rawX, roadRight - carSprites[spriteIndex].w));
+          const rawX = laneX - carSprites[spriteIndex].w / 2;
+          const clampedX = Math.max(roadLeft, Math.min(rawX, roadRight - carSprites[spriteIndex].w));
 
-        // lane cooldown, to render cars
-        const safeToSpawn = cars.current.every(car => {
-          const sameLane = Math.abs(car.x - rawX) < 5;
-          const distance = Math.abs(car.y - (-120));
-          return !(sameLane && distance);
-        });
-
-        // cars object
-        if (safeToSpawn) {
-          cars.current.push({
-            id: ++carId,
-            sprite: carSprites[spriteIndex],
-            x: clampedX,
-            y: -120
+          // lane cooldown, to render cars
+          const safeToSpawn = cars.current.every(car => {
+            const sameLane = Math.abs(car.x - rawX) < 5;
+            const distance = Math.abs(car.y - (-120));
+            return !(sameLane && distance);
           });
-        }
-        lastTime = time;
-      }
 
+          // cars object
+          if (safeToSpawn) {
+            cars.current.push({
+              id: ++carId,
+              sprite: carSprites[spriteIndex],
+              x: clampedX,
+              y: -120,
+              nearMissAwarded: false
+            });
+          }
+          lastTime = time;
+        }
+
+      }
       // move the car down with the road
       cars.current.forEach(car => {
         car.y += carsSpeed * delta
@@ -144,11 +154,13 @@ export default function Assignment_42() {
       // removes the overflown cars
       cars.current = cars.current.filter(car => car.y < 480)
 
+      // Collision Detection logic
       cars.current.forEach(car => {
-        const carX = car.x;
-        const carY = car.y;
         const carW = car.sprite.w;
         const carH = car.sprite.h;
+
+        const carX = car.x + carW / 2;
+        const carY = car.y + carH / 2;
 
         // player hitbox
         const playerLeft = positionX - playerWidth / 2;
@@ -157,10 +169,10 @@ export default function Assignment_42() {
         const playerBottom = playerYRef.current + playerHeight / 2;
 
         // cars hitbox
-        const carLeft = carX;
-        const carRight = carX + carW;
-        const carTop = carY;
-        const carBottom = carY + carH;
+        const carLeft = carX - carW / 2;
+        const carRight = carX + carW / 2;
+        const carTop = carY - carH / 2;
+        const carBottom = carY + carH / 2;
 
         const collision =
           playerLeft < carRight &&
@@ -171,35 +183,60 @@ export default function Assignment_42() {
         if (collision && !collisionDetected) {
           console.log("Collision detected");
           setCollisionDetected(true);
-          playerYRef.current += carsSpeed * delta;
+          setGameState("gameOver");
 
-          window.onkeydown = (event) => {
-            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-              event.preventDefault();
-            }
-            keys[event.key] = false;
-          }
-          window.onkeyup = (event) => {
-            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-              event.preventDefault();
-            }
-            keys[event.key] = false;
-          }
+          window.onkeydown = (event) => { keys[event.key] = false; }
+          window.onkeyup = (event) => { keys[event.key] = false; }
+
+          
+        }
+
+        // Near miss and scoring
+        const margin = 10;
+        const nearMissX =
+          Math.abs(playerRight - carLeft) < margin ||
+          Math.abs(carRight - playerLeft) < margin;
+
+        const nearMiss = !collision && nearMissX;
+
+        if (car.y > 0 && nearMiss && !car.nearMissAwarded) {
+          car.nearMissAwarded = true;
+          setScore(prev => prev + 1);
         }
       })
 
       // position
       player.style.left = positionX + 'px';
+      player.style.top = playerYRef.current + 'px';
       setCounter(value => value + 1);
     }
 
     frame = requestAnimationFrame(update)
 
     return (() => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(frame);;
     })
+  }, [gameState, collisionDetected]);
 
-  }, [])
+  const restart = () => {
+    setGameState("playing");
+    setCollisionDetected(false);
+    setScore(0);
+    cars.current = [];
+    scrollDown.current = 0;
+    playerYRef.current = 360;
+    setDirection("idle");
+
+    Object.keys(keys).forEach(k => {
+      keys[k] = false;
+    });
+
+    if (playerRef.current && containerRef.current) {
+      const containerW = containerRef.current.offsetWidth;
+      playerRef.current.style.left = (containerW - playerWidth) / 2 + "px";
+      playerRef.current.style.top = playerYRef.current + "px";
+    }
+  };
 
   return (
     <div>
@@ -209,6 +246,7 @@ export default function Assignment_42() {
         data-counter={counter}
         style={{ backgroundPosition: `center ${scrollDown.current}px` }}
       >
+
         <div className="cars">
           {cars.current.map(car => (
 
@@ -225,6 +263,7 @@ export default function Assignment_42() {
             />
           ))}
         </div>
+
         <div
           className="player"
           data-direction={direction}
@@ -233,9 +272,29 @@ export default function Assignment_42() {
             width: playerWidth,
             height: playerHeight,
             top: playerYRef.current + "px",
+            visibility: gameState === "playing" ? "visible" : "hidden"
           }}
-        ></div>
-        <div className="score"></div>
+        />
+
+        <div className="score">Score: {score}</div>
+
+        {gameState !== "playing" && (
+          <div className="overlay">
+            <div className="overlay-box">
+              <div className="overlay-title">
+                {gameState === "gameOver" ? "Game Over" : "Highway Rush"}
+              </div>
+              <div className="overlay-description">
+                {gameState === "gameOver"
+                  ? "Click Restart to try again"
+                  : "Use arrow keys <= or =>, to score commit near misses"}
+              </div>
+              <button className="overlay-button" onClick={restart}>
+                {gameState === "start" ? "Start" : "Restart"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

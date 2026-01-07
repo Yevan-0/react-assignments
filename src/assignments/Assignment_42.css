@@ -12,26 +12,29 @@
     overflow: hidden;
     padding: 15px;
     border-radius: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
 .player {
-    transform-origin: center;
-    transform: translateX(-50%) translateY(-50%);
-    background-image: url("../assets/highway-rush-cars.png");
-    background-position-x: -64.7px;
-    background-position-y: -345.8px;
-    position: absolute;
-    transition: transform 0.15s;
-    background-repeat: no-repeat;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  background-image: url("../assets/highway-rush-cars.png");
+  background-position-x: -64.7px;
+  background-position-y: -345.8px;
+  background-repeat: no-repeat;
+  transition: transform 0.15s;
 }
 
 .player[data-direction="left"] {
-    transform: translateX(-50%) translateY(-50%) rotateZ(-6deg);
+  transform: translate(-50%, -50%) rotateZ(-6deg);
 }
 
 .player[data-direction="right"] {
-    transform: translateX(-50%)translateY(-50%) rotateZ(6deg);
+  transform: translate(-50%, -50%) rotateZ(6deg);
 }
+
 
 .car {
     background-image: url("../assets/highway-rush-cars.png");
@@ -41,15 +44,77 @@
     filter: blur(0.5px) brightness(1.1);
 }
 
-.hitbox {
-  position: absolute;
-  border: 2px dashed red;
-  pointer-events: none;
-  z-index: 9999;
+.score {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    background-color: #000;
+    padding: 3px 8px;
+    border-radius: 8px;
+    line-height: 20px;
+    font-size: 13px;
+    color: #FFF;
+    z-index: 100;
 }
-.player-hitbox {
-  position: absolute;
-  border: 2px dashed lime;
-  pointer-events: none;
-  z-index: 9999;
+
+
+.overlay {
+    width: 220px;
+    background-color: #000C;
+    border-radius: 8px;
+    position: absolute;
+    top: 150px;
+    left: 55px;
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-box {
+    border-radius: 12px;
+    width: 200px;
+    height: 150px;
+    text-align: center;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.overlay-title {
+    font-size: 18px;
+    color: #FFF;
+    text-align: center;
+    padding: 20px 5px 0px 5px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.overlay-description {
+    font-size: 12px;
+    color: #FFF;
+    text-align: center;
+    padding: 0px 0px 5px 0px;
+    align-items: center;
+
+}
+
+.overlay-button {
+    background-color: #06c;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    height: 30px;
+    margin: 10px auto 20px auto;
+    width: 100px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.overlay-button:hover {
+    background: #0056b3;
 }
