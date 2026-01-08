@@ -4,7 +4,7 @@ import "./Assignment_40.css";
 
 export default function Assignment_40() {
     const [playing, setPlaying] = useState(false);
-    const [yAxis, setYaxis] = useState(0);
+    const [xAxis, setXaxis] = useState(0);
 
     const [ballX, setBallX] = useState(0);
     const [ballY, setBallY] = useState(0);
@@ -20,7 +20,7 @@ export default function Assignment_40() {
     const handleOrientation = (event) => {
         console.log("gamma:", event.gamma);
         const gamma = event.gamma ? Number(event.gamma).toPrecision(3) : 0;
-        setYaxis(gamma);
+        setXaxis(gamma);
     };
 
     // Access for motion sensors
@@ -116,7 +116,7 @@ export default function Assignment_40() {
                             ref={basketRef}
                             className="basket"
                             style={{
-                                transform: `translateX(${yAxis * 5}px)`
+                                transform: `translateX(${xAxis * 5}px)`
                             }}
                         ></div>
                     </div>

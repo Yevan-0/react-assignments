@@ -46,6 +46,28 @@ export default function Assignment_42() {
   const [collisionDetected, setCollisionDetected] = useState(false);
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState("start");
+  const playerXRef = useRef((containerRef.current?.offsetWidth ?? 0 - playerWidth) / 2);
+  const tiltDirectionRef = useRef("idle");
+
+  // start init event handler
+  const onInit = () => {
+    // check for permission function
+    if (DeviceOrientationEvent.requestPermission) {
+      // request permission for ios devices
+      DeviceOrientationEvent.requestPermission().then(state => {
+        if (state === "granted") {
+          //  switch to game screen
+          setGameState("playing")
+        } else {
+          //  switch to error screen
+          setGameState("error")
+        }
+      })
+    } else {
+      // directly switch to game screen
+      setGameState("playing")
+    }
+  }
 
   // Render road animation and other animations
   useEffect(() => {
@@ -57,12 +79,13 @@ export default function Assignment_42() {
 
     if (!player || !containerRef.current) return;
 
-    let containerWidth = containerRef.current.offsetWidth;
     let playerWidth = player.offsetWidth;
 
-    let positionX = (containerWidth - playerWidth) / 2;
+    const laneWidth = (roadRight - roadLeft) / laneCount;
+    const centerLane = roadLeft + Math.floor(laneCount / 2) * laneWidth + laneWidth / 2;
 
-    player.style.left = positionX + 'px';
+    playerXRef.current = centerLane;
+    player.style.left = (playerXRef.current - playerWidth / 2) + 'px';
 
     // Cars rendering time frame (sprite sheet)
     let lastTime = 0;
@@ -99,18 +122,17 @@ export default function Assignment_42() {
 
       if (gameState === "playing") {
         // Movement render
-        if (!collisionDetected) {
-          if (keys["ArrowLeft"]) {
-            positionX = Math.max(roadLeft + playerWidth / 2, positionX - speed);
-            setDirection("left");
-          }
-          else if (keys["ArrowRight"]) {
-            positionX = Math.min(roadRight - playerWidth / 2, positionX + speed);
-            setDirection("right");
-          }
-          else {
-            setDirection("idle");
-          }
+        if (keys["ArrowLeft"] || tiltDirectionRef.current === "left") {
+          playerXRef.current = Math.max(roadLeft + playerWidth / 2, playerXRef.current - speed);
+          setDirection("left");
+          player.style.transform = "rotate(-15deg)";
+        } else if (keys["ArrowRight"] || tiltDirectionRef.current === "right") {
+          playerXRef.current = Math.min(roadRight - playerWidth / 2, playerXRef.current + speed);
+          setDirection("right");
+          player.style.transform = "rotate(15deg)";
+        } else {
+          setDirection("idle");
+          player.style.transform = "rotate(0deg)";
         }
 
         // render carSprite cars
@@ -162,9 +184,11 @@ export default function Assignment_42() {
         const carX = car.x + carW / 2;
         const carY = car.y + carH / 2;
 
-        // player hitbox
-        const playerLeft = positionX - playerWidth / 2;
-        const playerRight = positionX + playerWidth / 2;
+        // Hitbox
+        const playerLeft = playerXRef.current - playerWidth / 2;
+        const playerRight = playerXRef.current + playerWidth / 2;
+
+
         const playerTop = playerYRef.current - playerHeight / 2;
         const playerBottom = playerYRef.current + playerHeight / 2;
 
@@ -187,8 +211,6 @@ export default function Assignment_42() {
 
           window.onkeydown = (event) => { keys[event.key] = false; }
           window.onkeyup = (event) => { keys[event.key] = false; }
-
-
         }
 
         // Near miss and scoring
@@ -206,18 +228,34 @@ export default function Assignment_42() {
       })
 
       // position
-      player.style.left = positionX + 'px';
+      player.style.left = (playerXRef.current - playerWidth / 2) + 'px';
       player.style.top = playerYRef.current + 'px';
+
       setCounter(value => value + 1);
     }
+
+    // tilt update
+    const updatePlayer = event => {
+      const sensitivity = 0.07; 
+      playerXRef.current += event.gamma * sensitivity;
+      playerXRef.current = Math.max(
+        roadLeft + playerWidth / 2,
+        Math.min(roadRight - playerWidth / 2, playerXRef.current)
+      );
+    };
+
+    // tilt access
+    window.addEventListener("deviceorientation", updatePlayer)
 
     frame = requestAnimationFrame(update)
 
     return (() => {
-      cancelAnimationFrame(frame);;
+      cancelAnimationFrame(frame);
+      window.removeEventListener("deviceorientation", updatePlayer);
     })
   }, [gameState, collisionDetected]);
 
+  // restart button
   const restart = () => {
     setGameState("playing");
     setCollisionDetected(false);
@@ -232,8 +270,12 @@ export default function Assignment_42() {
     });
 
     if (playerRef.current && containerRef.current) {
-      const containerW = containerRef.current.offsetWidth;
-      playerRef.current.style.left = (containerW - playerWidth) / 2 + "px";
+      const laneWidth = (roadRight - roadLeft) / laneCount;
+      const centerLane = roadLeft + Math.floor(laneCount / 2) * laneWidth + laneWidth / 2;
+
+      playerXRef.current = centerLane;
+
+      playerRef.current.style.left = (playerXRef.current - playerWidth / 2) + "px";
       playerRef.current.style.top = playerYRef.current + "px";
     }
   };
@@ -289,13 +331,13 @@ export default function Assignment_42() {
                   ? "Click Restart to try again"
                   : "Use arrow keys <= or =>, to score commit near misses"}
               </div>
-              <button className="overlay-button" onClick={restart}>
+              <button className="overlay-button" onClick={gameState === "start" ? onInit : restart}>
                 {gameState === "start" ? "Start" : "Restart"}
               </button>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </div >
   )
 }
