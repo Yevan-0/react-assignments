@@ -236,12 +236,27 @@ export default function Assignment_42() {
 
     // tilt update
     const updatePlayer = event => {
-      const sensitivity = 0.07; 
-      playerXRef.current += event.gamma * sensitivity;
+      const sensitivity = 0.07;
+      const tilt = event.gamma;
+      playerXRef.current += tilt * sensitivity;
       playerXRef.current = Math.max(
         roadLeft + playerWidth / 2,
         Math.min(roadRight - playerWidth / 2, playerXRef.current)
       );
+
+      if (tilt > 20) {
+        setDirection("right")
+      } else if (tilt > 5) {
+        setDirection("right")
+      } else if (tilt < -20) {
+        setDirection("left")
+      } else if (tilt < -5) {
+        // Gentle tilt to the left
+        setDirection("left")
+      } else {
+        setDirection("idle")
+      }
+
     };
 
     // tilt access
