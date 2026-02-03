@@ -30,7 +30,14 @@ export default function Assignment_43() {
     });
 
     setCells(initial);
-    setNextValue(1);
+
+    // start at the lowest missing number
+    const usedValues = puzzle.fixed.map(f => f.value);
+    const allValues = Array.from({ length: puzzle.height * puzzle.width }, (_, i) => i + 1);
+    const missingValues = allValues.filter(v => !usedValues.includes(v));
+
+    // start with smallest number
+    setNextValue(Math.min(...missingValues));
   }, []);
 
   // Display number
@@ -41,7 +48,12 @@ export default function Assignment_43() {
     newCells[index] = nextValue;
     setCells(newCells);
 
-    setNextValue(nextValue + 1);
+    let next = nextValue + 1;
+    const usedValues = puzzle.fixed.map(f => f.value);
+    while (usedValues.includes(next)) {
+      next++;
+    }
+    setNextValue(next);
   };
 
   const handleMouseDown = (index) => {
