@@ -1,105 +1,86 @@
 import { useEffect, useState } from 'react';
 import './Assignment_43.css';
 
+// puzzle array for testing purposes
 const puzzle = {
   level: 1,
-  rows: [
-    [
-      { fixed: true, value: 1, drawn: false, match: false },
-      { fixed: false, value: null, drawn: false },
-      { fixed: true, value: 3, drawn: false, match: false }
-    ],
-    [
-      { fixed: false, value: null, drawn: false },
-      { fixed: true, value: 9, drawn: false, match: false },
-      { fixed: false, value: null, drawn: false }
-    ],
-    [
-      { fixed: true, value: 7, drawn: false, match: false },
-      { fixed: false, value: null, drawn: false },
-      { fixed: true, value: 5, drawn: false, match: false }
-    ]
+  height: 3,
+  width: 3,
+  fixed: [
+    { x: 0, y: 0, value: 1 },
+    { x: 2, y: 0, value: 3 },
+    { x: 1, y: 1, value: 9 },
+    { x: 0, y: 2, value: 7 },
+    { x: 2, y: 2, value: 5 },
   ]
 };
-
 
 export default function Assignment_43() {
   const [cells, setCells] = useState([]);
   const [dragging, setDragging] = useState(false);
+  const [nextValue, setNextValue] = useState(1);
 
-  // render boxes
+  // initialize grid
   useEffect(() => {
-    const initialBoxes = puzzle.rows.flat().map(cell =>
-      cell.fixed ? cell.value : null
-    );
-    setCells(initialBoxes);
+    const initial = Array(puzzle.height * puzzle.width).fill(null);
 
-    const maxFixed = Math.max(...initialBoxes.filter(v => v !== null));
+    puzzle.fixed.forEach(f => {
+      const index = f.y * puzzle.width + f.x;
+      initial[index] = f.value;
+    });
+
+    setCells(initial);
+    setNextValue(1);
   }, []);
 
-  // display number on drag
-const displayNumber = (index) => {
-  const rowLength = puzzle.rows[0].length;
-  const rowIndex = Math.floor(index / rowLength);
-  const cellIndex = index % rowLength;
-  const cell = puzzle.rows[rowIndex][cellIndex];
+  // Display number
+  const displayNumber = (index) => {
+    if (cells[index] !== null) return;
 
-  if (cells[index] !== null || cell.fixed) return;
+    const newCells = [...cells];
+    newCells[index] = nextValue;
+    setCells(newCells);
 
-  const maxValue = Math.max(...cells.filter(v => v !== null));
-  const nextValue = maxValue + 1;
+    setNextValue(nextValue + 1);
+  };
 
-  const newCells = [...cells];
-  newCells[index] = nextValue;
-
-  setCells(newCells);
-};
-
-  // display numberon mouse down on any cell
   const handleMouseDown = (index) => {
     setDragging(true);
     displayNumber(index);
-  }
+  };
 
-  // display number on drag
   const handleMouseMove = (index) => {
-    if (!dragging) return;
-    displayNumber(index);
-  }
+    if (dragging) displayNumber(index);
+  };
 
-  // stop drag
-  const handleMouseUp = () => {
-    setDragging(false);
-  }
+  const handleMouseUp = () => setDragging(false);
 
-  // on entering cell display number
   const handleMouseEnter = (index) => {
-    if (dragging) {
-      displayNumber(index);
-    }
+    if (dragging) displayNumber(index);
   };
 
   return (
     <div>
       <div className="container">
-        <div className="puzzle-level"> Level {puzzle.level}</div>
+        <div className="puzzle-level">Level {puzzle.level}</div>
         <div className="puzzle-outer">
           <div className="puzzle">
-            {puzzle.rows.map((row, rowIndex) => (
+            {Array.from({ length: puzzle.height }).map((_, rowIndex) => (
               <div key={rowIndex} className="puzzle-row">
-                {row.map((cell, cellIndex) => {
-                  const linearIndex = rowIndex * puzzle.rows[0].length + cellIndex;
+                {Array.from({ length: puzzle.width }).map((_, colIndex) => {
+                  const linearIndex = rowIndex * puzzle.width + colIndex;
+                  const fixedCell = puzzle.fixed.find(f => f.x === colIndex && f.y === rowIndex);
+
                   return (
                     <div
-                      key={cellIndex}
-                      className="puzzle-cell"
-                      data-fixed={cell.fixed}
+                      key={colIndex}
+                      className={`puzzle-cell ${fixedCell ? 'fixed' : ''}`}
                       onMouseDown={() => handleMouseDown(linearIndex)}
                       onMouseEnter={() => handleMouseEnter(linearIndex)}
                       onMouseMove={() => handleMouseMove(linearIndex)}
                       onMouseUp={handleMouseUp}
                     >
-                      {cells[linearIndex] ?? cell.value}
+                      {cells[linearIndex]}
                     </div>
                   );
                 })}
