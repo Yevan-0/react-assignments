@@ -94,6 +94,8 @@ function App() {
       <Link to="/ASG-42">Assignment 42-Highway Rush</Link>
       <br />
       <Link to="/ASG-43">Assignment 43-Hidato</Link>
+      <br />
+      <Link to="/ASG-44">Assignment 44-Suduko</Link>
     </>
   )
 }
