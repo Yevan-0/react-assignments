@@ -190,6 +190,7 @@ export default function Assignment_44() {
                 key={num}
                 className={`palette-btn ${selectedNumber === num ? "active" : ""}`}
                 onClick={() => setSelectedNumber(num)}
+                disabled={complete}
               >
                 {num}
               </button>
@@ -201,9 +202,9 @@ export default function Assignment_44() {
       {complete && (
         <div className="restart">
           <div className="r-text">Congratulations!</div>
-          <button 
-          className="restart-btn"
-          onClick={restart}>Restart</button>
+          <button
+            className="restart-btn"
+            onClick={restart}>Restart</button>
         </div>
       )}
 
