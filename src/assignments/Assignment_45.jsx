@@ -18,7 +18,7 @@ export default function Assignment_45() {
     const loadModels = async () => {
       if (modelLoaded) return;
 
-      const URL = process.env.PUBLIC_URL + "./models";
+      const URL =  "/models";
       await faceapi.nets.ssdMobilenetv1.loadFromUri(URL);
       await faceapi.nets.faceLandmark68Net.loadFromUri(URL);
       console.log("Models loaded", URL);
