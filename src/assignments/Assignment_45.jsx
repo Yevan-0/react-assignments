@@ -11,6 +11,8 @@ export default function Assignment_45() {
   const imgRef = useRef(null);
   const modelRef = useRef(null);
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [detecting, setDetecting] = useState(false);
+
 
   useEffect(() => {
     const loadModels = async () => {
@@ -45,22 +47,25 @@ export default function Assignment_45() {
   const handleDetect = async () => {
     if (!modelLoaded) return;
     if (!imgRef.current) return;
-
+    setDetecting(true);
     try {
       const detections = await faceapi
-        .detectAllFaces(imgRef.current, new faceapi.SsdMobilenetv1Options())
+        .detectAllFaces(imgRef.current)
         .withFaceLandmarks();
       console.log("Predictions:", detections);
       setFaces(detections);
+
     } catch (err) {
       setError("Face detection Failed" + err.message);
       console.log(err)
+    } finally {
+      setDetecting(false)
     }
   }
 
   return (
     <div>
-      face recognition
+      {/* face recognition */}
 
       <div className="container">
         <div className="cont-top">
@@ -89,6 +94,7 @@ export default function Assignment_45() {
           <button
             className="detect-btn"
             onClick={handleDetect}
+            disabled={detecting}
           >
             Detect
           </button>
