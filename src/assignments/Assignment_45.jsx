@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
-import "./Assignment_45.css";
-import * as blazeface from "@tensorflow-models/blazeface";
-import "@tensorflow/tfjs"; 
+import { useState, useRef, useEffect } from "react";
+import "./Assignment_46.css";
+import * as faceapi from "face-api.js";
 
 export default function Assignment_45() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -10,6 +9,21 @@ export default function Assignment_45() {
   const fileInputRef = useRef(null);
   const [faces, setFaces] = useState([]);
   const imgRef = useRef(null);
+  const modelRef = useRef(null);
+  const [modelLoaded, setModelLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      if (modelLoaded) return;
+
+      const URL = "/models";
+      await faceapi.nets.ssdMobilenetv1.loadFromUri(URL);
+      await faceapi.nets.faceLandmark68Net.loadFromUri(URL);
+      console.log("Models loaded", URL);
+      setModelLoaded(true);
+    };
+    loadModels();
+  }, [modelLoaded]);
 
   const changeFile = (e) => {
     const file = e.target.files?.[0];
@@ -29,14 +43,15 @@ export default function Assignment_45() {
   };
 
   const handleDetect = async () => {
+    if (!modelLoaded) return;
     if (!imgRef.current) return;
-
+    
     try {
-      const model = await blazeface.load();
-      const predictions = await model.estimateFaces(imgRef.current, false);
-
-      console.log("Predictions:", predictions);
-      setFaces(predictions);
+      const detections = await faceapi
+        .detectAllFaces(imgRef.current, new faceapi.SsdMobilenetv1Options())
+        .withFaceLandmarks();
+      console.log("Predictions:", detections);
+      setFaces(detections);
     } catch (err) {
       setError("Face detection Failed" + err.message);
       console.log(err)
@@ -45,6 +60,8 @@ export default function Assignment_45() {
 
   return (
     <div>
+      face recognition
+
       <div className="container">
         <div className="cont-top">
 
@@ -78,17 +95,11 @@ export default function Assignment_45() {
         </div>
 
         <div className="cont-bottom">
-          {error && <p style={{ color: "red" }}>{error}</p>}
           {source && (
             <div style={{ position: "relative" }}>
               <img ref={imgRef} src={source} alt="preview" />
               {faces.map((face, i) => {
-                const [x, y, width, height] = [
-                  face.topLeft[0],
-                  face.topLeft[1],
-                  face.bottomRight[0] - face.topLeft[0],
-                  face.bottomRight[1] - face.topLeft[1],
-                ];
+                const { x, y, width, height } = face.detection.box;
                 return (
                   <div
                     key={i}
@@ -105,6 +116,7 @@ export default function Assignment_45() {
               })}
             </div>
           )}
+          {error && <p style={{ color: "red", fontSize: "12px", padding: "5px" }}>{error}</p>}
         </div>
       </div>
     </div>
