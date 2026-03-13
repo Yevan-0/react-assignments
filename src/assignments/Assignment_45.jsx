@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import "./Assignment_46.css";
+import "./Assignment_45.css";
 import * as faceapi from "face-api.js";
 
 export default function Assignment_45() {
@@ -45,7 +45,7 @@ export default function Assignment_45() {
   const handleDetect = async () => {
     if (!modelLoaded) return;
     if (!imgRef.current) return;
-    
+
     try {
       const detections = await faceapi
         .detectAllFaces(imgRef.current, new faceapi.SsdMobilenetv1Options())
