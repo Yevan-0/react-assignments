@@ -129,8 +129,8 @@ export default function Assignment_45() {
       })
 
       setFaces(results);
-      console.log("Predictions:", detections);
-      console.log(`results: ${results}`)
+      // console.log("Predictions:", detections);
+      // console.log(`results: ${results}`)
     } catch (err) {
       setError("Face detection Failed" + err.message);
       console.log(err)
@@ -182,33 +182,34 @@ export default function Assignment_45() {
               <img ref={imgRef} src={source} alt="preview" />
 
               {faces.map((face, i) => {
-                const { x, y, width, height } = face.detection.box;
-                const { rotation, scale } = face.orientation || {};
+                const { rotation } = face.orientation || {};
                 if (!rotation) return null;
 
-                const { x: rot_x, y: rot_y, z: rot_z } = rotation;
+                const { z: rot_z } = rotation;
+
+                // Eye landmarks
                 const leftEye = face.landmarks.positions[leftEyeOuter];
                 const rightEye = face.landmarks.positions[rightEyeOuter];
+
+                // Midpoint between eyes
                 const eyeCenterX = (leftEye.x + rightEye.x) / 2;
                 const eyeCenterY = (leftEye.y + rightEye.y) / 2;
-                
+
+                // Eye distance for scaling
+                const eyeDistance = getDistance(leftEye, rightEye);
+                const glassesWidth = eyeDistance * 6;   
+                const glassesHeight = eyeDistance * 2; 
+
                 return (
-                  <div key={i} style={{ position: "absolute", left: x, top: y }}>
-                    <div
-                      style={{
-                        border: "3px solid red",
-                        width: width,
-                        height: height,
-                      }}
-                    />
+                  <div key={i}>
                     <div
                       className="filter"
                       style={{
                         position: "absolute",
-                        left: eyeCenterX - scale.x / 2,
-                        top: eyeCenterY - scale.y / 2,
-                        width: scale.x,
-                        height: scale.y,
+                        left: eyeCenterX - glassesWidth / 2,
+                        top: eyeCenterY - glassesHeight / 2 + eyeDistance * 0.2, 
+                        width: glassesWidth,
+                        height: glassesHeight,
                         transform: `rotate(${rot_z * 57.3}deg)`,
                         transformOrigin: "center center",
                       }}
