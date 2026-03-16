@@ -11,7 +11,6 @@ const rightEyeOuter = 37;
 const leftEyeInner = 43;
 const leftEyeOuter = 46;
 
-
 const getDistance = (a, b) =>
   Math.hypot(a.x - b.x, a.y - b.y);
 
@@ -86,7 +85,7 @@ export default function Assignment_45() {
     const loadModels = async () => {
       if (modelLoaded) return;
 
-      const URL = "/models";
+      const URL = "./models";
       await faceapi.nets.ssdMobilenetv1.loadFromUri(URL);
       await faceapi.nets.faceLandmark68Net.loadFromUri(URL);
       console.log("Models loaded", URL);
