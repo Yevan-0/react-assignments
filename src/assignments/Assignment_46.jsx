@@ -59,7 +59,7 @@ const getOrientation = (positions, box) => {
     getDistance(
       positions[rightEyeOuter],
       positions[leftEyeOuter]
-    ) * 0.7;
+    ) * 2;
 
   if (rot_y > 0.7 || rot_y < -0.7) return null;
 
@@ -125,7 +125,7 @@ export default function Assignment_46() {
     });
 
     setFaces(results);
-    requestAnimationFrame(handleDetect); 
+    requestAnimationFrame(handleDetect);
   };
 
   useEffect(() => {
@@ -189,23 +189,10 @@ export default function Assignment_46() {
 
 
               {faces.map((face, i) => {
-                const { rotation } = face.orientation || {};
-                if (!rotation) return null;
+                const { position, rotation, scale } = face.orientation || {};
+                if (!position || !rotation || !scale) return null;
 
-                const { z: rot_z } = rotation;
-
-                // Eye landmarks
-                const leftEye = face.landmarks.positions[leftEyeOuter];
-                const rightEye = face.landmarks.positions[rightEyeOuter];
-
-                // Midpoint between eyes
-                const eyeCenterX = (leftEye.x + rightEye.x) / 2;
-                const eyeCenterY = (leftEye.y + rightEye.y) / 2;
-
-                // Eye distance for scaling
-                const eyeDistance = getDistance(leftEye, rightEye);
-                const glassesWidth = eyeDistance * 6;
-                const glassesHeight = eyeDistance * 2;
+                
 
                 return (
                   <div key={i}>
@@ -213,11 +200,16 @@ export default function Assignment_46() {
                       className="filter"
                       style={{
                         position: "absolute",
-                        left: eyeCenterX - glassesWidth / 2,
-                        top: eyeCenterY - glassesHeight / 2 + eyeDistance * 0.2,
-                        width: glassesWidth,
-                        height: glassesHeight,
-                        transform: `rotate(${rot_z * 57.3}deg)`,
+                        left: position.x - scale.x / 2,
+                        top: position.y - scale.y / 2,
+                        width: scale.x,
+                        height: scale.y,
+                        transform: `
+                        rotateX(${rotation.x * 57.3}deg)
+                        rotateY(${rotation.y * 57.3}deg)
+                        rotateZ(${rotation.z * 57.3}deg)
+                      `,
+
                         transformOrigin: "center center",
                       }}
                     >
